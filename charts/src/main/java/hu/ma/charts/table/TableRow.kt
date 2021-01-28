@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun TableRow(
@@ -24,11 +23,11 @@ internal fun TableRow(
     modifier = modifier,
     verticalAlignment = Alignment.CenterVertically
   ) {
-    if (entry.drawShape && entry.shape != null && entry.shapeColor != null) {
+    if (entry.drawShape != null) {
       Box(
-        modifier = shapeModifier.background(entry.shapeColor, entry.shape)
+        modifier = shapeModifier.background(entry.drawShape.color, entry.drawShape.shape)
       )
-      Spacer(modifier = Modifier.size(8.dp))
+      Spacer(modifier = Modifier.size(entry.drawShape.size))
     }
 
     keyText(entry.key)

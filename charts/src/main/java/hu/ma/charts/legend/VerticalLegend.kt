@@ -1,0 +1,47 @@
+package hu.ma.charts.legend
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
+import hu.ma.charts.table.DefaultText
+
+@Composable
+fun RowScope.DrawVerticalLegend(
+  legendEntries: List<LegendEntry>,
+  text: @Composable (entry: LegendEntry) -> Unit = {
+    DefaultText(text = it.text)
+  },
+) {
+  Column(
+    modifier = Modifier.weight(1f),
+    verticalArrangement = Arrangement.Center
+  ) {
+    legendEntries.fastForEachIndexed { idx, item ->
+      Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+          modifier = Modifier
+            .size(item.shape.size)
+            .background(item.shape.color, item.shape.shape)
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        text(item)
+      }
+
+      if (idx != legendEntries.lastIndex)
+        Spacer(modifier = Modifier.size(8.dp))
+    }
+  }
+}
+

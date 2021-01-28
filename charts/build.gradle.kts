@@ -39,7 +39,9 @@ dependencies {
     Dependencies.Compose.layout,
     Dependencies.Compose.material,
     Dependencies.Compose.iconsExtended,
-    Dependencies.Compose.animation
+    Dependencies.Compose.animation,
+    Dependencies.Compose.tooling,
+    Dependencies.Compose.util
   ).forEach {
     implementation(it)
   }

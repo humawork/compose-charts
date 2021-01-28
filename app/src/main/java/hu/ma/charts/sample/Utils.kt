@@ -3,6 +3,8 @@ package hu.ma.charts.sample
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.unit.dp
+import hu.ma.charts.ChartShape
 import hu.ma.charts.table.TableEntry
 import kotlin.random.Random
 
@@ -35,9 +37,11 @@ internal val TableSampleData = listOf(
     TableEntry(
       key = AnnotatedString(Categories.random()),
       value = AnnotatedString((it * Random(System.currentTimeMillis()).nextInt(123)).toString()),
-      drawShape = true,
-      shape = CircleShape,
-      shapeColor = colors.random(),
+      drawShape = ChartShape(
+        size = 8.dp,
+        shape = CircleShape,
+        color = colors.random(),
+      )
     )
   },
 )

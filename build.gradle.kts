@@ -24,7 +24,10 @@ allprojects {
       // Allow warnings when running from IDE, makes it easier to experiment.
       // allWarningsAsErrors = true
 
-      freeCompilerArgs = freeCompilerArgs + listOf("-Xallow-jvm-ir-dependencies")
+      freeCompilerArgs = freeCompilerArgs + listOf(
+        "-Xallow-jvm-ir-dependencies",
+        "-Xopt-in=kotlin.RequiresOptIn"
+      )
       jvmTarget = "1.8"
     }
   }

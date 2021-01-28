@@ -33,7 +33,8 @@ object Dependencies {
     const val animation = "androidx.compose.animation:animation:_"
 
     const val tooling = "androidx.compose.ui:ui-tooling:_"
-    const val test = "androidx.ui:ui-test:_"
+    const val util = "androidx.compose.ui:ui-util:_"
+    const val test = "androidx.compose:ui:ui-test:_"
 
     object Navigation {
       const val core = "androidx.navigation:navigation-compose:_"
