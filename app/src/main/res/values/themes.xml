@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+  <style name="Theme.HumaCharts" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="android:statusBarColor" tools:targetApi="l">#000</item>
+  </style>
+</resources>
