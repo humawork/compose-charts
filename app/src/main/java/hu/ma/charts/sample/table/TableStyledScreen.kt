@@ -2,13 +2,8 @@ package hu.ma.charts.sample.table
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -21,21 +16,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hu.ma.charts.sample.ChartContainer
+import hu.ma.charts.sample.ScreenContainer
 import hu.ma.charts.sample.TableSampleData
 import hu.ma.charts.table.Table
 
 @Composable
 fun TableStyledScreen() {
-  ScrollableColumn(
-    modifier = Modifier.fillMaxSize(),
-    verticalArrangement = Arrangement.spacedBy(24.dp),
-  ) {
-    Spacer(
-      modifier = Modifier
-        .fillMaxWidth()
-        .height(16.dp)
-    )
-
+  ScreenContainer {
     TableSampleData.forEach { (title, entries) ->
       ChartContainer(
         modifier = Modifier
@@ -67,11 +54,5 @@ fun TableStyledScreen() {
         )
       }
     }
-
-    Spacer(
-      modifier = Modifier
-        .fillMaxWidth()
-        .height(24.dp)
-    )
   }
 }
