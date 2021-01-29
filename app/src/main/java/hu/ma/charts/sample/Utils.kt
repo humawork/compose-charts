@@ -52,13 +52,13 @@ val SimpleColors = listOf(
 internal val TableSampleData = listOf(
   "Without Shape" to (1..6).map {
     TableEntry(
-      key = AnnotatedString(Categories.random()),
+      key = AnnotatedString(Categories[it]),
       value = AnnotatedString((it * Random(System.currentTimeMillis()).nextInt(123)).toString()),
     )
   },
   "With Shape" to (1..5).map {
     TableEntry(
-      key = AnnotatedString(Categories.random()),
+      key = AnnotatedString(Categories[it]),
       value = AnnotatedString((it * Random(System.currentTimeMillis()).nextInt(123)).toString()),
       drawShape = ChartShape(
         size = 8.dp,
@@ -71,10 +71,10 @@ internal val TableSampleData = listOf(
 
 internal val PieSampleData = LegendPosition.values().map {
   PieChartData(
-    entries = listOf(240f, 430f, 140f, 60f, 50f).map { value ->
+    entries = listOf(240f, 430f, 140f, 60f, 50f).mapIndexed { idx, value ->
       PieChartEntry(
         value = value,
-        label = AnnotatedString(Categories.random())
+        label = AnnotatedString(Categories[idx])
       )
     },
     colors = SimpleColors,
