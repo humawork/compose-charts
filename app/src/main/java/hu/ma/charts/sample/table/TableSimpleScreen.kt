@@ -12,7 +12,7 @@ import hu.ma.charts.table.Table
 @Composable
 fun TableSimpleScreen() {
   ScreenContainer {
-    TableSampleData.forEach { (title, entries) ->
+    items(TableSampleData) { (title, entries) ->
       ChartContainer(
         modifier = Modifier.padding(16.dp),
         title = title

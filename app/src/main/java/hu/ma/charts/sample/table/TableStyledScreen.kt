@@ -23,7 +23,7 @@ import hu.ma.charts.table.Table
 @Composable
 fun TableStyledScreen() {
   ScreenContainer {
-    TableSampleData.forEach { (title, entries) ->
+    items(TableSampleData) { (title, entries) ->
       ChartContainer(
         modifier = Modifier
           .fillMaxWidth()

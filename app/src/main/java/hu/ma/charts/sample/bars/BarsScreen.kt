@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
 import hu.ma.charts.bars.HorizontalBarsChart
 import hu.ma.charts.sample.BarsSampleData
 import hu.ma.charts.sample.ChartContainer
@@ -19,7 +18,7 @@ import hu.ma.charts.sample.ScreenContainer
 @Composable
 fun BarsScreen() {
   ScreenContainer {
-    BarsSampleData.fastForEach { (title, data) ->
+    items(BarsSampleData) { (title, data) ->
       ChartContainer(
         modifier = Modifier
           .fillMaxWidth()

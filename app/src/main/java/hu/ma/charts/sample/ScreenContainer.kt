@@ -1,35 +1,26 @@
 package hu.ma.charts.sample
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ScreenContainer(
-  content: @Composable () -> Unit,
+  content: LazyListScope.() -> Unit,
 ) {
-  ScrollableColumn(
+  LazyColumn(
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(24.dp),
+    contentPadding = PaddingValues(
+      top = 24.dp,
+      bottom = 24.dp,
+    ),
   ) {
-    Spacer(
-      modifier = Modifier
-        .fillMaxWidth()
-        .height(1.dp)
-    )
-
     content()
-
-    Spacer(
-      modifier = Modifier
-        .fillMaxWidth()
-        .height(1.dp)
-    )
   }
 }

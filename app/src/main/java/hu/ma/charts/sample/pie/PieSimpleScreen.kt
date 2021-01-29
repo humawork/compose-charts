@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
 import hu.ma.charts.pie.PieChart
 import hu.ma.charts.sample.ChartContainer
 import hu.ma.charts.sample.PieSampleData
@@ -15,7 +14,7 @@ import hu.ma.charts.sample.ScreenContainer
 @Composable
 fun PieSimpleScreen() {
   ScreenContainer {
-    PieSampleData.fastForEach {
+    items(PieSampleData) {
       ChartContainer(
         modifier = Modifier
           .fillMaxWidth()
