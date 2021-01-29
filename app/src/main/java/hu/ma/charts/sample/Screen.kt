@@ -6,5 +6,6 @@ enum class Screen(val route: String, val title: String) {
   TableStyled("table-styled", "Table - Styled"),
   PieSimple("pie-simple", "Pie - Simple"),
   PieStyled("pie-styled", "Pie - Styled"),
-  Bars("bars", "Bars"),
+  BarsSimple("bars-simple", "Bars - Simple"),
+  BarsStyled("bars-styled", "Bars - Styled"),
 }

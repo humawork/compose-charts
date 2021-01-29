@@ -57,7 +57,7 @@ fun HorizontalBarsChart(
   dropdownContent: @Composable (StackedBarData) -> Unit = {
     DropdownContent(data = it, colors = data.colors)
   },
-  keyContent: TextRowFactory = { DefaultText(text = it) },
+  textContent: TextRowFactory = { DefaultText(text = it) },
   valueContent: TextRowFactory = { DefaultText(text = it) },
 ) {
   val legendEntries = remember(data) {
@@ -94,7 +94,7 @@ fun HorizontalBarsChart(
             maxBarValue = maxValue,
             shouldDrawDivider = idx != data.bars.lastIndex,
             divider = divider,
-            title = keyContent,
+            title = textContent,
             value = valueContent,
           )
         },
@@ -155,9 +155,7 @@ internal fun StackedHorizontalBar(
       }
 
       Spacer(
-        modifier = Modifier
-          .weight(1f)
-          .height(24.dp)
+        modifier = Modifier.weight(1f)
       )
 
       value(AnnotatedString(data.count.toString()))
