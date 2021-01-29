@@ -1,6 +1,8 @@
 package hu.ma.charts.bars
 
+import androidx.compose.foundation.AmbientIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.preferredHeightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,13 +23,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.AmbientDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import hu.ma.charts.EmptyIndication
 import hu.ma.charts.bars.data.HorizontalBarsData
 import hu.ma.charts.bars.data.StackedBarData
 import hu.ma.charts.bars.data.StackedBarItem
@@ -83,20 +86,21 @@ fun HorizontalBarsChart(
     data.bars.forEachIndexed { idx, bar ->
       DropdownMenu(
         toggle = {
-          StackedHorizontalBar(
-            modifier = Modifier.clickable(
-              enabled = data.isPopupEnabled,
-              indication = null,
-              onClick = { popupState = PopupState.Showing(bar) },
-            ),
-            colors = data.colors,
-            data = bar,
-            maxBarValue = maxValue,
-            shouldDrawDivider = idx != data.bars.lastIndex,
-            divider = divider,
-            title = textContent,
-            value = valueContent,
-          )
+          Providers(AmbientIndication provides { EmptyIndication }) {
+            StackedHorizontalBar(
+              modifier = Modifier.clickable(
+                enabled = data.isPopupEnabled,
+                onClick = { popupState = PopupState.Showing(bar) },
+              ),
+              colors = data.colors,
+              data = bar,
+              maxBarValue = maxValue,
+              shouldDrawDivider = idx != data.bars.lastIndex,
+              divider = divider,
+              title = textContent,
+              value = valueContent,
+            )
+          }
         },
         dropdownOffset = DpOffset(0.dp, (-48).dp),
         dropdownModifier = dropdownModifier,
@@ -167,7 +171,7 @@ internal fun StackedHorizontalBar(
         .height(4.dp)
     )
 
-    WithConstraints {
+    BoxWithConstraints {
       val rightPadding = with(AmbientDensity.current) { OptionalBarOffset.toIntPx() }
       val maxWidthPx = with(AmbientDensity.current) { MaximumBarWidth.toIntPx() }
       val maxBarWidthPx = min(maxWidthPx, constraints.maxWidth - rightPadding)
