@@ -9,6 +9,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.ChartShape
+import hu.ma.charts.bars.data.HorizontalBarsData
+import hu.ma.charts.bars.data.StackedBarData
+import hu.ma.charts.bars.data.StackedBarEntry
 import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.pie.LegendPosition
 import hu.ma.charts.pie.PieChartData
@@ -79,6 +82,51 @@ internal val PieSampleData = LegendPosition.values().map {
     legendShape = CircleShape,
   )
 }
+
+internal val BarsSampleData = listOf(
+  "Bars" to HorizontalBarsData(
+    bars = createBars(true),
+  ),
+  "Bars without colors for entries" to HorizontalBarsData(
+    bars = createBars(false),
+    colors = SimpleColors.reversed(),
+  ),
+  "Bars without popup" to HorizontalBarsData(
+    bars = createBars(true),
+    colors = SimpleColors.reversed(),
+    isPopupEnabled = false,
+  ),
+  "Bars with custom legend" to HorizontalBarsData(
+    bars = createBars(true),
+    colors = SimpleColors.reversed(),
+    customLegendEntries = (0..4).map {
+      LegendEntry(
+        text = AnnotatedString("Legend entry $it"),
+        value = it.toFloat(),
+        shape = ChartShape.Default.copy(color = SimpleColors.reversed()[it])
+      )
+    }
+  ),
+)
+
+private fun createBars(withColor: Boolean) = listOf(
+  listOf(12f, 2f, 3f, 2f),
+  listOf(3f, 2f, 4f, 5f),
+  listOf(1f, 4f, 12f, 5f),
+  listOf(1f, 20f, 2f, 1f),
+).mapIndexed { idx, values ->
+  StackedBarData(
+    title = AnnotatedString("Bars $idx"),
+    entries = values.mapIndexed { index, value ->
+      StackedBarEntry(
+        text = AnnotatedString(Categories[index]),
+        value = value,
+        color = SimpleColors[index].takeIf { withColor }
+      )
+    }
+  )
+}
+
 
 @Composable
 internal fun buildValuePercentString(item: LegendEntry) = buildAnnotatedString {

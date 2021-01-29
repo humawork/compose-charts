@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import hu.ma.charts.sample.bars.BarsScreen
 import hu.ma.charts.sample.pie.PieSimpleScreen
 import hu.ma.charts.sample.pie.PieStyledScreen
 import hu.ma.charts.sample.table.TableSimpleScreen
@@ -54,6 +55,10 @@ fun RootScreen() {
 
         composable(Screen.PieStyled.route) {
           PieStyledScreen()
+        }
+
+        composable(Screen.Bars.route) {
+          BarsScreen()
         }
       }
     }
