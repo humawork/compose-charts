@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.legend.DrawVerticalLegend
@@ -30,8 +30,8 @@ fun PieChart(
   val fractions = remember(data) { data.calculateFractions() }
   val legendEntries = remember(data) { data.createLegendEntries(chartShapeSize) }
 
-  val chartSizePx = with(AmbientDensity.current) { chartSize.toPx() }
-  val sliceWidthPx = with(AmbientDensity.current) { sliceWidth.toPx() }
+  val chartSizePx = with(LocalDensity.current) { chartSize.toPx() }
+  val sliceWidthPx = with(LocalDensity.current) { sliceWidth.toPx() }
 
   @Composable
   fun RowScope.legend() {

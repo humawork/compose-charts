@@ -11,14 +11,15 @@ object Dependencies {
   }
 
   object Kotlin {
-    const val version = "1.4.21-2"
+    const val version = "1.4.30"
 
     const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:_"
   }
 
   object Compose {
-    const val version = "1.0.0-alpha11"
+    const val version = "1.0.0-alpha12"
 
+    const val activity = "androidx.activity:activity-compose:_"
     const val runtime = "androidx.compose.runtime:runtime:_"
     const val livedata = "androidx.compose.runtime:runtime-livedata:_"
     const val savedInstanceState = "androidx.compose.runtime:runtime-saved-instance-state:_"

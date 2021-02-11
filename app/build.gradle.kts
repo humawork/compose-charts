@@ -42,6 +42,7 @@ dependencies {
     AndroidX.activityKtx,
     Google.android.material,
     Dependencies.Compose.runtime,
+    Dependencies.Compose.activity,
     Dependencies.Compose.ui,
     Dependencies.Compose.foundation,
     Dependencies.Compose.layout,
