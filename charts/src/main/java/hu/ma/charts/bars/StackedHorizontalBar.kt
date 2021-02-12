@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.bars.data.StackedBarItem
 
@@ -26,8 +26,8 @@ internal fun DrawStackedBar(
   entryPathFactory: EntryPathFactory = { entry, size -> createBarEntryShape(entry, size) },
 ) {
   val total = remember(entries) { entries.sumByDouble { it.value.toDouble() }.toFloat() }
-  val width = with(AmbientDensity.current) { widthPx.toDp() }
-  val spacingPx = with(AmbientDensity.current) { EntrySpacing.toIntPx() }
+  val width = with(LocalDensity.current) { widthPx.toDp() }
+  val spacingPx = with(LocalDensity.current) { EntrySpacing.roundToPx() }
 
   val totalSpacing = (entries.size - 1) * spacingPx
 
@@ -51,7 +51,7 @@ internal fun DrawStackedBar(
 
       Box(
         modifier = Modifier
-          .width(with(AmbientDensity.current) { item.value.toDp() })
+          .width(with(LocalDensity.current) { item.value.toDp() })
           .height(8.dp)
           .drawBehind {
             drawPath(entryPathFactory(shape, size), item.color)
