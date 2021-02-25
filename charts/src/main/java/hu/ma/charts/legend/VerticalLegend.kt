@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,17 +30,17 @@ fun RowScope.DrawVerticalLegend(
       Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
           modifier = Modifier
-            .size(item.shape.size)
+            .requiredSize(item.shape.size)
             .background(item.shape.color, item.shape.shape)
         )
 
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.requiredSize(8.dp))
 
         text(item)
       }
 
       if (idx != legendEntries.lastIndex)
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.requiredSize(8.dp))
     }
   }
 }

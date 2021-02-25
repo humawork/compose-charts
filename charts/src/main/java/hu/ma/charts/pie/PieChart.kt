@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,7 +47,7 @@ fun PieChart(
       Row {
         legend()
       }
-      Spacer(modifier = Modifier.size(legendOffset))
+      Spacer(modifier = Modifier.requiredSize(legendOffset))
     }
 
     Row(
@@ -59,11 +59,11 @@ fun PieChart(
 
       if (data.legendPosition == LegendPosition.Start) {
         legend()
-        Spacer(modifier = Modifier.size(legendOffset))
+        Spacer(modifier = Modifier.requiredSize(legendOffset))
       }
 
       ActualPieChart(
-        modifier = Modifier.size(chartSize),
+        modifier = Modifier.requiredSize(chartSize),
         chartSizePx = chartSizePx,
         sliceWidthPx = sliceWidthPx,
         fractions = fractions,
@@ -71,13 +71,13 @@ fun PieChart(
       )
 
       if (data.legendPosition == LegendPosition.End) {
-        Spacer(modifier = Modifier.size(legendOffset))
+        Spacer(modifier = Modifier.requiredSize(legendOffset))
         legend()
       }
     }
 
     if (data.legendPosition == LegendPosition.Bottom) {
-      Spacer(modifier = Modifier.size(legendOffset))
+      Spacer(modifier = Modifier.requiredSize(legendOffset))
       Row {
         legend()
       }

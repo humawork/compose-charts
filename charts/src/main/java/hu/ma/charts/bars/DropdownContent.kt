@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -48,14 +48,14 @@ internal fun DropdownContent(
   Spacer(
     modifier = Modifier
       .fillMaxWidth()
-      .height(8.dp)
+      .requiredHeight(8.dp)
   )
 
   entries.forEachIndexed { idx, (text, value, color) ->
-    Row(Modifier.height(20.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.requiredHeight(20.dp), verticalAlignment = Alignment.CenterVertically) {
       Box(
         Modifier
-          .size(8.dp)
+          .requiredSize(8.dp)
           .background(color, CircleShape)
       )
 
@@ -67,7 +67,7 @@ internal fun DropdownContent(
 
       Spacer(
         modifier = Modifier
-          .height(20.dp)
+          .requiredHeight(20.dp)
           .weight(1f)
       )
 
@@ -81,7 +81,7 @@ internal fun DropdownContent(
       Spacer(
         modifier = Modifier
           .fillMaxWidth()
-          .height(8.dp)
+          .requiredHeight(8.dp)
       )
   }
 }

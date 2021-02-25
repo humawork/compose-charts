@@ -36,7 +36,7 @@ fun RootScreen() {
         title = { Text("Charts Sample") }
       )
     },
-    bodyContent = {
+    content = {
       NavHost(navController = controller, startDestination = Screen.Root.route) {
         composable(Screen.Root.route) {
           RootContent(controller)

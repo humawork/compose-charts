@@ -2,7 +2,7 @@ package hu.ma.charts.sample
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +19,7 @@ fun ChartContainer(
 ) {
   Column(modifier = modifier) {
     Text(title, style = MaterialTheme.typography.h6)
-    Spacer(modifier = Modifier.size(chartOffset))
+    Spacer(modifier = Modifier.requiredSize(chartOffset))
     content()
   }
 }

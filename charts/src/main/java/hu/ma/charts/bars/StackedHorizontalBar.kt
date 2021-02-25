@@ -3,8 +3,8 @@ package hu.ma.charts.bars
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,7 +38,7 @@ internal fun DrawStackedBar(
   }
 
   Row(
-    modifier = Modifier.width(width),
+    modifier = Modifier.requiredWidth(width),
     horizontalArrangement = Arrangement.spacedBy(EntrySpacing)
   ) {
     values.forEachIndexed { idx, item ->
@@ -51,8 +51,8 @@ internal fun DrawStackedBar(
 
       Box(
         modifier = Modifier
-          .width(with(LocalDensity.current) { item.value.toDp() })
-          .height(8.dp)
+          .requiredWidth(with(LocalDensity.current) { item.value.toDp() })
+          .requiredHeight(8.dp)
           .drawBehind {
             drawPath(entryPathFactory(shape, size), item.color)
           }

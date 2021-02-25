@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -65,11 +65,11 @@ private fun RowScope.CustomVerticalLegend(entries: List<LegendEntry>) {
       ) {
         Box(
           Modifier
-            .size(item.shape.size)
+            .requiredSize(item.shape.size)
             .background(item.shape.color, item.shape.shape)
         )
 
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.requiredSize(8.dp))
 
         Text(
           text = item.text,

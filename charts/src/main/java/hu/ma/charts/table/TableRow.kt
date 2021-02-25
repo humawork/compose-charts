@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +27,7 @@ internal fun TableRow(
       Box(
         modifier = shapeModifier.background(entry.drawShape.color, entry.drawShape.shape)
       )
-      Spacer(modifier = Modifier.size(entry.drawShape.size))
+      Spacer(modifier = Modifier.requiredSize(entry.drawShape.size))
     }
 
     keyText(entry.key)

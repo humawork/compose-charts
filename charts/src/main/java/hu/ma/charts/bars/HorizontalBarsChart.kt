@@ -1,7 +1,7 @@
 package hu.ma.charts.bars
 
-import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeightIn
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +45,7 @@ internal val MaximumBarWidth = 275.dp
 typealias TextRowFactory = @Composable RowScope.(title: AnnotatedString) -> Unit
 
 internal val DropdownDefaultModifier = Modifier
-  .width(176.dp)
+  .requiredWidth(176.dp)
   .padding(16.dp)
 
 @Composable
@@ -77,7 +77,7 @@ fun HorizontalBarsChart(
     Spacer(
       modifier = Modifier
         .fillMaxWidth()
-        .height(legendOffset)
+        .requiredHeight(legendOffset)
     )
 
     val maxValue = data.bars.maxByOrNull { bar -> bar.count }?.count ?: 0
@@ -86,7 +86,7 @@ fun HorizontalBarsChart(
       Box {
         StackedHorizontalBar(
           modifier = Modifier.clickable(
-            interactionState = remember { InteractionState() },
+            interactionSource = MutableInteractionSource(),
             indication = null,
             enabled = data.isPopupEnabled,
             onClick = { popupState = PopupState.Showing(bar) },
@@ -140,10 +140,10 @@ internal fun StackedHorizontalBar(
     Spacer(
       modifier = Modifier
         .fillMaxWidth()
-        .height(12.dp)
+        .requiredHeight(12.dp)
     )
     Row(
-      modifier = Modifier.preferredHeightIn(min = 24.dp),
+      modifier = Modifier.heightIn(min = 24.dp),
       verticalAlignment = Alignment.CenterVertically
     ) {
       Row(
@@ -169,7 +169,7 @@ internal fun StackedHorizontalBar(
     Spacer(
       modifier = Modifier
         .fillMaxWidth()
-        .height(4.dp)
+        .requiredHeight(4.dp)
     )
 
     BoxWithConstraints {
@@ -190,7 +190,7 @@ internal fun StackedHorizontalBar(
     Spacer(
       modifier = Modifier
         .fillMaxWidth()
-        .height(12.dp)
+        .requiredHeight(12.dp)
     )
 
     if (shouldDrawDivider && divider != null) {
