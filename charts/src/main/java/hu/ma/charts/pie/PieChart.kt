@@ -67,7 +67,8 @@ fun PieChart(
         chartSizePx = chartSizePx,
         sliceWidthPx = sliceWidthPx,
         fractions = fractions,
-        composeColors = entryColors.takeIf { it.size == data.entries.size } ?: data.colors
+        composeColors = entryColors.takeIf { it.size == data.entries.size } ?: data.colors,
+        animate = data.animate,
       )
 
       if (data.legendPosition == LegendPosition.End) {

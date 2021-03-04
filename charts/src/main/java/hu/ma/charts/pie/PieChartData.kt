@@ -9,4 +9,5 @@ data class PieChartData(
   val colors: List<Color> = emptyList(),
   val legendPosition: LegendPosition = LegendPosition.Bottom,
   val legendShape: Shape = CircleShape,
+  val animate: Boolean = true,
 )
