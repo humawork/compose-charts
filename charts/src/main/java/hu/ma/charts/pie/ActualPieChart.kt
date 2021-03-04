@@ -25,7 +25,6 @@ import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
 
-private const val DividerLengthInDegrees = 2.4f * 2
 private const val StartDegree = -90f
 
 @Composable
@@ -33,6 +32,7 @@ internal fun ActualPieChart(
   modifier: Modifier = Modifier,
   chartSizePx: Float,
   sliceWidthPx: Float,
+  sliceSpacingPx: Float,
   fractions: List<Float>,
   composeColors: List<Color>,
   animate: Boolean,
@@ -72,9 +72,6 @@ internal fun ActualPieChart(
 
     val rotationAngle = StartDegree
 
-    // TODO move to data
-    val sliceSpace = DividerLengthInDegrees
-
     fractions.fastForEachIndexed { idx, sliceAngle ->
       val piecePaint = Paint().apply {
         color = composeColors.safeGet(idx).toArgb()
@@ -82,9 +79,9 @@ internal fun ActualPieChart(
       }
       var innerRadius = userInnerRadius
 
-      val accountForSliceSpacing = sliceSpace > 0f && sliceAngle <= 180f
+      val accountForSliceSpacing = sliceSpacingPx > 0f && sliceAngle <= 180f
 
-      val sliceSpaceAngleOuter = sliceSpace / (FDEG2RAD * radius)
+      val sliceSpaceAngleOuter = sliceSpacingPx / (FDEG2RAD * radius)
       val startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2f) * phase
       val sweepAngleOuter = ((sliceAngle - sliceSpaceAngleOuter) * phase).coerceAtLeast(0f)
 
@@ -128,7 +125,7 @@ internal fun ActualPieChart(
         }
 
         val sliceSpaceAngleInner = if (fractions.size == 1 || innerRadius == 0f) 0f
-        else sliceSpace / (FDEG2RAD * innerRadius)
+        else sliceSpacingPx / (FDEG2RAD * innerRadius)
 
         val startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2f) * phase
         val sweepAngleInner = ((sliceAngle - sliceSpaceAngleInner) * phase).coerceAtLeast(0f)
