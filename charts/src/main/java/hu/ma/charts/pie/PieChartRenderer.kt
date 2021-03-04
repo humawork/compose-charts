@@ -28,7 +28,7 @@ import kotlin.math.sin
 private const val StartDegree = -90f
 
 @Composable
-internal fun ActualPieChart(
+internal fun PieChartRenderer(
   modifier: Modifier = Modifier,
   chartSizePx: Float,
   sliceWidthPx: Float,

@@ -64,7 +64,7 @@ fun PieChart(
         Spacer(modifier = Modifier.requiredSize(legendOffset))
       }
 
-      ActualPieChart(
+      PieChartRenderer(
         modifier = Modifier.requiredSize(chartSize),
         chartSizePx = chartSizePx,
         sliceWidthPx = sliceWidthPx,
