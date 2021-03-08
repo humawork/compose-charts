@@ -25,6 +25,7 @@ fun PieChart(
   sliceWidth: Dp = 16.dp,
   legendOffset: Dp = 24.dp,
   chartShapeSize: Dp = 8.dp,
+  sliceSpacing: Dp = 2.dp,
   legend: @Composable (RowScope.(entries: List<LegendEntry>) -> Unit)? = null,
 ) {
   val fractions = remember(data) { data.calculateFractions() }
@@ -32,6 +33,7 @@ fun PieChart(
 
   val chartSizePx = with(LocalDensity.current) { chartSize.toPx() }
   val sliceWidthPx = with(LocalDensity.current) { sliceWidth.toPx() }
+  val sliceSpacingPx = with(LocalDensity.current) { sliceSpacing.toPx() }
 
   @Composable
   fun RowScope.legend() {
@@ -62,12 +64,14 @@ fun PieChart(
         Spacer(modifier = Modifier.requiredSize(legendOffset))
       }
 
-      ActualPieChart(
+      PieChartRenderer(
         modifier = Modifier.requiredSize(chartSize),
         chartSizePx = chartSizePx,
         sliceWidthPx = sliceWidthPx,
+        sliceSpacingPx = sliceSpacingPx,
         fractions = fractions,
-        composeColors = entryColors.takeIf { it.size == data.entries.size } ?: data.colors
+        composeColors = entryColors.takeIf { it.size == data.entries.size } ?: data.colors,
+        animate = data.animate,
       )
 
       if (data.legendPosition == LegendPosition.End) {
