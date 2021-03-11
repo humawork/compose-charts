@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import hu.ma.charts.sample.ChartContainer
 import hu.ma.charts.sample.ScreenContainer
 import hu.ma.charts.sample.TableSampleData
-import hu.ma.charts.table.Table
+import hu.ma.charts.table.TableChart
 
 @Composable
 fun TableSimpleScreen() {
@@ -18,7 +18,7 @@ fun TableSimpleScreen() {
         modifier = Modifier.padding(16.dp),
         title = title
       ) {
-        Table(data = entries)
+        TableChart(data = entries)
       }
     }
   }

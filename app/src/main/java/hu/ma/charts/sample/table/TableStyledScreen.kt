@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import hu.ma.charts.sample.ChartContainer
 import hu.ma.charts.sample.ScreenContainer
 import hu.ma.charts.sample.TableSampleData
-import hu.ma.charts.table.Table
+import hu.ma.charts.table.TableChart
 
 @Composable
 fun TableStyledScreen() {
@@ -34,7 +34,7 @@ fun TableStyledScreen() {
           .animateContentSize(),
         title = title
       ) {
-        Table(
+        TableChart(
           modifier = Modifier.fillMaxWidth(),
           data = entries,
           keyText = { key ->
