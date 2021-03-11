@@ -88,4 +88,3 @@ private fun RowScope.CustomVerticalLegend(entries: List<LegendEntry>) {
     }
   }
 }
-

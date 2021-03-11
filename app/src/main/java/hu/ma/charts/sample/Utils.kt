@@ -127,7 +127,6 @@ private fun createBars(withColor: Boolean) = listOf(
   )
 }
 
-
 @Composable
 internal fun buildValuePercentString(item: LegendEntry) = buildAnnotatedString {
   withStyle(
@@ -147,4 +146,3 @@ internal fun buildValuePercentString(item: LegendEntry) = buildAnnotatedString {
     append("($percentString %)")
   }
 }
-

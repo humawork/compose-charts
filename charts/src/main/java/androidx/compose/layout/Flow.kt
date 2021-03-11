@@ -168,7 +168,7 @@ private fun Flow(
     // Return whether the placeable can be added to the current sequence.
     fun canAddToCurrentSequence(placeable: Placeable) =
       currentSequence.isEmpty() || currentMainAxisSize + mainAxisSpacing.roundToPx() +
-          placeable.mainAxisSize() <= constraints.mainAxisMax
+        placeable.mainAxisSize() <= constraints.mainAxisMax
 
     // Store current sequence information and start a new sequence.
     fun startNewSequence() {
@@ -229,7 +229,7 @@ private fun Flow(
       sequences.fastForEachIndexed { i, placeables ->
         val childrenMainAxisSizes = IntArray(placeables.size) { j ->
           placeables[j].mainAxisSize() +
-              if (j < placeables.lastIndex) mainAxisSpacing.roundToPx() else 0
+            if (j < placeables.lastIndex) mainAxisSpacing.roundToPx() else 0
         }
         val arrangement = if (i < sequences.lastIndex) {
           mainAxisAlignment.arrangement

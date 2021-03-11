@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import hu.ma.charts.bars.data.HorizontalBarsData
 import hu.ma.charts.bars.data.StackedBarData
 import hu.ma.charts.bars.data.StackedBarItem
+import hu.ma.charts.internal.DefaultText
+import hu.ma.charts.internal.safeGet
 import hu.ma.charts.legend.DrawHorizontalLegend
 import hu.ma.charts.legend.LegendEntry
-import hu.ma.charts.internal.safeGet
-import hu.ma.charts.internal.DefaultText
 import kotlin.math.min
 
 internal val MinimumBarWidth = 24.dp
@@ -112,7 +112,6 @@ fun HorizontalBarsChart(
           }
         }
       }
-
     }
   }
 }

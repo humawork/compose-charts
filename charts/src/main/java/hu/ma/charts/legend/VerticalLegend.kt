@@ -44,4 +44,3 @@ fun RowScope.DrawVerticalLegend(
     }
   }
 }
-

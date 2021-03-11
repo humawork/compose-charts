@@ -5,8 +5,8 @@ import androidx.compose.ui.unit.Dp
 import hu.ma.charts.ChartShape
 import hu.ma.charts.internal.DEG2RAD
 import hu.ma.charts.internal.FDEG2RAD
-import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.internal.safeGet
+import hu.ma.charts.legend.LegendEntry
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
@@ -91,7 +91,7 @@ internal fun calculateMinimumRadiusForSpacedSlice(
   // This is the base of the contained triangle
   val basePointsDistance = sqrt(
     (arcEndPointX - arcStartPointX).toDouble().pow(2.0) +
-        (arcEndPointY - arcStartPointY).toDouble().pow(2.0)
+      (arcEndPointY - arcStartPointY).toDouble().pow(2.0)
   )
 
   // After reducing space from both sides of the "slice",
@@ -106,7 +106,7 @@ internal fun calculateMinimumRadiusForSpacedSlice(
   // And now subtract the height of the arc that's between the triangle and the outer circle
   spacedRadius -= sqrt(
     (arcMidPointX - (arcEndPointX + arcStartPointX) / 2f).toDouble().pow(2.0) +
-        (arcMidPointY - (arcEndPointY + arcStartPointY) / 2f).toDouble().pow(2.0)
+      (arcMidPointY - (arcEndPointY + arcStartPointY) / 2f).toDouble().pow(2.0)
   ).toFloat()
 
   return spacedRadius

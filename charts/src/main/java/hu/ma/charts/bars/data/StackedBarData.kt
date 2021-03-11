@@ -8,4 +8,3 @@ data class StackedBarData(
 ) {
   val count get() = entries.sumBy { it.value.toInt() }
 }
-

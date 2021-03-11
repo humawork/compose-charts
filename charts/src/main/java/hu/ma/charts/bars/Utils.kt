@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.ChartShape
 import hu.ma.charts.bars.data.HorizontalBarsData
-import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.internal.safeGet
+import hu.ma.charts.legend.LegendEntry
 
 internal fun HorizontalBarsData.uniqueBarEntries() =
   bars.asSequence()

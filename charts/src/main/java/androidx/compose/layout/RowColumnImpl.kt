@@ -281,7 +281,6 @@ private val RowColumnParentData?.crossAxisAlignment: CrossAxisAlignment?
 private val RowColumnParentData?.isRelative: Boolean
   get() = this.crossAxisAlignment?.isRelative ?: false
 
-
 private fun intrinsicSize(
   children: List<IntrinsicMeasurable>,
   intrinsicMainSize: IntrinsicMeasurable.(Int) -> Int,
@@ -379,7 +378,7 @@ internal class LayoutWeightImpl(
     if (this === other) return true
     val otherModifier = other as? LayoutWeightImpl ?: return false
     return weight != otherModifier.weight &&
-        fill != otherModifier.fill
+      fill != otherModifier.fill
   }
 
   override fun hashCode(): Int {
