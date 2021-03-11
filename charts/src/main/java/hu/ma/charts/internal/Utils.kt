@@ -1,4 +1,4 @@
-package hu.ma.charts
+package hu.ma.charts.internal
 
 internal fun <T> List<T>.safeGet(idx: Int): T = when {
   idx in 0..lastIndex -> this[idx]

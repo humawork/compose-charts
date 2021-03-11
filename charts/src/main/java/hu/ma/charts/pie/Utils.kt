@@ -3,10 +3,10 @@ package hu.ma.charts.pie
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import hu.ma.charts.ChartShape
-import hu.ma.charts.DEG2RAD
-import hu.ma.charts.FDEG2RAD
+import hu.ma.charts.internal.DEG2RAD
+import hu.ma.charts.internal.FDEG2RAD
 import hu.ma.charts.legend.LegendEntry
-import hu.ma.charts.safeGet
+import hu.ma.charts.internal.safeGet
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin

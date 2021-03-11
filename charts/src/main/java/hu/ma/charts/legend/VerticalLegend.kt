@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
-import hu.ma.charts.table.DefaultText
+import hu.ma.charts.internal.DefaultText
 
 @Composable
 fun RowScope.DrawVerticalLegend(

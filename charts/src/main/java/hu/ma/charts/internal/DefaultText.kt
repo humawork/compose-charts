@@ -1,4 +1,4 @@
-package hu.ma.charts.table
+package hu.ma.charts.internal
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
