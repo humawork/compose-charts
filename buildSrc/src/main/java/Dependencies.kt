@@ -41,4 +41,8 @@ object Dependencies {
       const val core = "androidx.navigation:navigation-compose:_"
     }
   }
+
+  object Ktlint {
+    const val plugin = "org.jlleitschuh.gradle:ktlint-gradle:_"
+  }
 }

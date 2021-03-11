@@ -1,5 +1,12 @@
 import de.fayard.refreshVersions.bootstrapRefreshVersions
 
+dependencyResolutionManagement {
+  repositories {
+    google()
+    mavenCentral()
+  }
+}
+
 rootProject.name = "HumaCharts"
 
 include(":app")

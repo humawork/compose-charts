@@ -1,11 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 buildscript {
   repositories {
     google()
+    mavenCentral()
     jcenter()
+    maven(url = "https://plugins.gradle.org/m2/")
   }
   dependencies {
+    classpath(Dependencies.Ktlint.plugin)
     classpath(Dependencies.Android.gradlePlugin)
     classpath(Dependencies.Kotlin.gradlePlugin)
   }
@@ -14,6 +18,7 @@ buildscript {
 allprojects {
   repositories {
     google()
+    mavenCentral()
     jcenter()
     maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
     maven(url = "https://jitpack.io")
@@ -29,6 +34,27 @@ allprojects {
         "-Xopt-in=kotlin.RequiresOptIn"
       )
       jvmTarget = "1.8"
+    }
+  }
+}
+
+subprojects {
+  apply(plugin = "org.jlleitschuh.gradle.ktlint")
+
+  configure<KtlintExtension> {
+    debug.set(false)
+  }
+
+  configurations.all {
+    if (!name.startsWith("ktlint")) {
+      resolutionStrategy {
+        eachDependency {
+          // Force Kotlin to our version
+          if (requested.group == "org.jetbrains.kotlin") {
+            useVersion("1.4.31")
+          }
+        }
+      }
     }
   }
 }
