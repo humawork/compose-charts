@@ -49,7 +49,7 @@ jobs:
   lint:
     name: Run ktlint check
     runs-on: ubuntu-latest
-    if: success()
+    needs: gradle
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
