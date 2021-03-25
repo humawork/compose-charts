@@ -1,6 +1,6 @@
 def chartsGroupId = "hu.ma.compose"
 def chartsArtifactId = "charts"
-def chartsVersion = "0.1.4"
+def chartsVersion = "0.1.5"
 
 afterEvaluate {
   publishing {
