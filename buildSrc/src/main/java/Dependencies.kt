@@ -17,7 +17,7 @@ object Dependencies {
   }
 
   object Compose {
-    const val version = "1.0.0-beta02"
+    const val version = "1.0.0-beta03"
 
     const val activity = "androidx.activity:activity-compose:_"
     const val runtime = "androidx.compose.runtime:runtime:_"
