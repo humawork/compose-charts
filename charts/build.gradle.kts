@@ -44,7 +44,8 @@ dependencies {
     Dependencies.Compose.iconsExtended,
     Dependencies.Compose.animation,
     Dependencies.Compose.tooling,
-    Dependencies.Compose.util
+    Dependencies.Compose.util,
+    Dependencies.Accompanist.flow
   ).forEach {
     implementation(it)
   }

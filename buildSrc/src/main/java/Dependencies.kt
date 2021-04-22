@@ -40,6 +40,10 @@ object Dependencies {
     }
   }
 
+  object Accompanist {
+    const val flow = "com.google.accompanist:accompanist-flowlayout:_"
+  }
+
   object Ktlint {
     const val plugin = "org.jlleitschuh.gradle:ktlint-gradle:_"
   }
