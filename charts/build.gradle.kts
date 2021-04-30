@@ -1,6 +1,9 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
   id("com.android.library")
   kotlin("android")
+  id("com.vanniktech.maven.publish")
 }
 
 android {
@@ -46,4 +49,8 @@ dependencies {
   ).forEach {
     implementation(it)
   }
+}
+
+mavenPublish {
+  sonatypeHost = SonatypeHost.S01
 }

@@ -47,4 +47,8 @@ object Dependencies {
   object Ktlint {
     const val plugin = "org.jlleitschuh.gradle:ktlint-gradle:_"
   }
+
+  object VannikTech {
+    const val mavenPublish = "com.vanniktech:gradle-maven-publish-plugin:0.15.0"
+  }
 }

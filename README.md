@@ -15,11 +15,12 @@ This library is WIP, and at the moment only contains the following charts:
 
 ## Download
 
+Available through mavenCentral
 
 Add the dependency:
 
 ```groovy
-implementation 'hu.ma.compose:charts:{latest-version}'
+implementation 'ma.hu:compose-charts:{latest-version}'
 ```
 
 # Samples
