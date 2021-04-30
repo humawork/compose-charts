@@ -12,6 +12,7 @@ buildscript {
     classpath(Dependencies.Ktlint.plugin)
     classpath(Dependencies.Android.gradlePlugin)
     classpath(Dependencies.Kotlin.gradlePlugin)
+    classpath(Dependencies.VannikTech.mavenPublish)
   }
 }
 

@@ -1,10 +1,10 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
   id("com.android.library")
   kotlin("android")
-  `maven-publish`
+  id("com.vanniktech.maven.publish")
 }
-
-apply(from = rootProject.file(".buildscript/configure-publishing.gradle"))
 
 android {
   compileSdkVersion(Config.targetSdk)
@@ -49,4 +49,8 @@ dependencies {
   ).forEach {
     implementation(it)
   }
+}
+
+mavenPublish {
+  sonatypeHost = SonatypeHost.S01
 }
