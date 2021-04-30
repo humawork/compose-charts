@@ -1,10 +1,7 @@
 plugins {
   id("com.android.library")
   kotlin("android")
-  `maven-publish`
 }
-
-apply(from = rootProject.file(".buildscript/configure-publishing.gradle"))
 
 android {
   compileSdkVersion(Config.targetSdk)
