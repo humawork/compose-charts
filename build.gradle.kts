@@ -52,7 +52,7 @@ subprojects {
         eachDependency {
           // Force Kotlin to our version
           if (requested.group == "org.jetbrains.kotlin") {
-            useVersion("1.4.31")
+            useVersion("1.4.32")
           }
         }
       }
