@@ -49,6 +49,7 @@ dependencies {
     Dependencies.Compose.iconsExtended,
     Dependencies.Compose.animation,
     Dependencies.Compose.util,
+    Dependencies.Compose.tooling,
     Dependencies.Compose.Navigation.core
   ).forEach {
     implementation(it)
