@@ -6,6 +6,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,7 +21,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
@@ -40,207 +41,210 @@ fun LineChart(
 
   var drillDownPoint by remember { mutableStateOf<Float?>(null) }
 
-  val screenWidth = with(LocalDensity.current) {
-    (LocalConfiguration.current.screenHeightDp * density)
-  }
+  BoxWithConstraints(modifier = modifier) {
 
-  val animatedDrillDownX by animateFloatAsState(targetValue = drillDownPoint ?: screenWidth)
+    val maxWidth = this.maxWidth
+    val animatedDrillDownX by animateFloatAsState(
+      targetValue = drillDownPoint ?: with(LocalDensity.current) { maxWidth.toPx() }
+    )
 
-  Canvas(modifier = modifier
-    .background(data.chartColors.background)
-    .pointerInput("drag") {
-      if (onDrillDown != null) {
-        detectHorizontalDragGestures(
-          onHorizontalDrag = { change, _ ->
-            if (change.position.x >= 0 && change.position.x <= this.size.width) {
-              drillDownPoint = change.position.x
-            }
-          },
-          onDragEnd = {
-            val xinterval = this.size.width / maxXValues
-            val snapToPoint = snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
-            if (snapToPoint != null) {
-              drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
-              onDrillDown(snapToPoint.x, data.series)
-            }
-          })
-      }
-    }
-    .pointerInput("tap") {
-      if (onDrillDown != null) {
-        detectTapGestures(onTap = {
-          val xinterval = this.size.width / maxXValues
-          val snapToPoint = snapToPoints(xinterval, it.x, data.series)
-          if (snapToPoint != null) {
-            drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
-            onDrillDown(snapToPoint.x, data.series)
+    Canvas(
+      modifier = Modifier
+        .fillMaxSize()
+        .background(data.chartColors.background)
+        .pointerInput("drag") {
+          if (onDrillDown != null) {
+            detectHorizontalDragGestures(
+              onHorizontalDrag = { change, _ ->
+                if (change.position.x >= 0 && change.position.x <= this.size.width) {
+                  drillDownPoint = change.position.x
+                }
+              },
+              onDragEnd = {
+                val xinterval = this.size.width / maxXValues
+                val snapToPoint = snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
+                if (snapToPoint != null) {
+                  drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
+                  onDrillDown(snapToPoint.x, data.series)
+                }
+              })
           }
-        })
-      }
-    }, onDraw = {
+        }
+        .pointerInput("tap") {
+          if (onDrillDown != null) {
+            detectTapGestures(onTap = {
+              val xinterval = this.size.width / maxXValues
+              val snapToPoint = snapToPoints(xinterval, it.x, data.series)
+              if (snapToPoint != null) {
+                drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
+                onDrillDown(snapToPoint.x, data.series)
+              }
+            })
+          }
+        }, onDraw = {
 
-    val axisLabelPaint = Paint().apply {
-      textSize = data.axisTextSize.toPx()
-      color = data.chartColors.label.toArgb()
-      typeface = data.axisTypeface
-      isAntiAlias = true
-    }
-    val heightOfAxisLabels =
-      axisLabelPaint.fontMetrics.descent - axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
+        val axisLabelPaint = Paint().apply {
+          textSize = data.axisTextSize.toPx()
+          color = data.chartColors.label.toArgb()
+          typeface = data.axisTypeface
+          isAntiAlias = true
+        }
+        val heightOfAxisLabels =
+          axisLabelPaint.fontMetrics.descent - axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
 
-    val heightOfYAxisLabels =
-      if (data.yLabels.isNotEmpty() && data.yLabels.maxOf { it.atValue } >= maxYValue)
-        heightOfAxisLabels + data.axisLabelPadding.value
-      else 0f
+        val heightOfYAxisLabels =
+          if (data.yLabels.isNotEmpty() && data.yLabels.maxOf { it.atValue } >= maxYValue)
+            heightOfAxisLabels + data.axisLabelPadding.value
+          else 0f
 
-    val componentBottom = this.size.height
-    val chartAreaHeight = componentBottom - heightOfAxisLabels - heightOfYAxisLabels
-    val chartBottom = componentBottom - heightOfAxisLabels
+        val componentBottom = this.size.height
+        val chartAreaHeight = componentBottom - heightOfAxisLabels - heightOfYAxisLabels
+        val chartBottom = componentBottom - heightOfAxisLabels
 
-    val xinterval = this.size.width / maxXValues.toFloat()
-    val ynormalization = maxYValue / chartAreaHeight
+        val xinterval = this.size.width / maxXValues.toFloat()
+        val ynormalization = maxYValue / chartAreaHeight
 
-    val nativeCanvas = drawContext.canvas.nativeCanvas
+        val nativeCanvas = drawContext.canvas.nativeCanvas
 
-    data.yLabels.forEach { ylabel ->
-      val y = (chartBottom - (ylabel.atValue / ynormalization)).toInt().toFloat()
-      if (data.horizontalLines) {
-        drawLine(
-          data.chartColors.horizontalLines,
-          strokeWidth = 1f,
-          start = Offset(0f, y),
-          end = Offset(
-            this.size.width, y
-          ),
-        )
-      }
-    }
-
-    data.series.forEach {
-
-      if (it.gradientFill) {
-        val gradientPathBuffer = Path()
-        val gradient = Brush.verticalGradient(
-          colors = listOf(it.color, Color.Transparent)
-        )
-
-        val firstPoint = it.points.first()
-
-        gradientPathBuffer.moveTo(
-          firstPoint.x * xinterval,
-          chartBottom
-        )
-        gradientPathBuffer.lineTo(
-          firstPoint.x * xinterval,
-          chartBottom - firstPoint.value / ynormalization
-        )
-
-        it.points.subList(1, it.points.size).forEach { point ->
-          gradientPathBuffer.lineTo(
-            point.x * xinterval,
-            chartBottom - point.value / ynormalization
-          )
+        data.yLabels.forEach { ylabel ->
+          val y = (chartBottom - (ylabel.atValue / ynormalization)).toInt().toFloat()
+          if (data.horizontalLines) {
+            drawLine(
+              data.chartColors.horizontalLines,
+              strokeWidth = 1f,
+              start = Offset(0f, y),
+              end = Offset(
+                this.size.width, y
+              ),
+            )
+          }
         }
 
-        gradientPathBuffer.lineTo(it.points.last().x * xinterval, chartBottom)
-        gradientPathBuffer.lineTo(firstPoint.x * xinterval, chartBottom)
-        drawPath(gradientPathBuffer, gradient)
+        data.series.forEach {
 
-      }
+          if (it.gradientFill) {
+            val gradientPathBuffer = Path()
+            val gradient = Brush.verticalGradient(
+              colors = listOf(it.color, Color.Transparent)
+            )
 
-      it.points.forEachIndexed { index, point ->
-        if (index > 0) {
-          val previous = it.points[index - 1]
+            val firstPoint = it.points.first()
 
-          drawLine(
-            color = it.color, start = Offset(
-              xinterval * previous.x,
-              chartBottom - previous.value / ynormalization
-            ),
-            end = Offset(
-              xinterval * point.x,
-              chartBottom - point.value / ynormalization
-            ), strokeWidth = 4f
-          )
+            gradientPathBuffer.moveTo(
+              firstPoint.x * xinterval,
+              chartBottom
+            )
+            gradientPathBuffer.lineTo(
+              firstPoint.x * xinterval,
+              chartBottom - firstPoint.value / ynormalization
+            )
 
+            it.points.subList(1, it.points.size).forEach { point ->
+              gradientPathBuffer.lineTo(
+                point.x * xinterval,
+                chartBottom - point.value / ynormalization
+              )
+            }
+
+            gradientPathBuffer.lineTo(it.points.last().x * xinterval, chartBottom)
+            gradientPathBuffer.lineTo(firstPoint.x * xinterval, chartBottom)
+            drawPath(gradientPathBuffer, gradient)
+
+          }
+
+          it.points.forEachIndexed { index, point ->
+            if (index > 0) {
+              val previous = it.points[index - 1]
+
+              drawLine(
+                color = it.color, start = Offset(
+                  xinterval * previous.x,
+                  chartBottom - previous.value / ynormalization
+                ),
+                end = Offset(
+                  xinterval * point.x,
+                  chartBottom - point.value / ynormalization
+                ), strokeWidth = 4f
+              )
+
+            }
+          }
+
+          if (data.drawAxis == DrawAxis.Y || data.drawAxis == DrawAxis.Both) {
+            drawLine(
+              data.chartColors.axis,
+              strokeWidth = data.axisWidth,
+              start = Offset(0f, chartBottom),
+              end = Offset(0f, 0f)
+            )
+          }
+
+          if (data.drawAxis == DrawAxis.X || data.drawAxis == DrawAxis.Both) {
+            drawLine(
+              data.chartColors.axis,
+              strokeWidth = data.axisWidth,
+              start = Offset(0f, chartBottom),
+              end = Offset(maxXValues * xinterval, chartBottom)
+            )
+          }
+
+          val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
+            val textWidth = axisLabelPaint.measureText(xlabel)
+            val x = when (index) {
+              0 -> 0f
+              data.xLabels.size - 1 -> maxXValues * xinterval - textWidth
+              else -> index * xinterval - textWidth / 2f
+            }
+            Label(x, componentBottom, xlabel, textWidth)
+          }
+
+          if (allLabelsX.combinedWidthIsGreaterThan(this.size.width, data.axisLabelPadding.value)) {
+            var reducedLabelsX = allLabelsX
+            while (reducedLabelsX.combinedWidthIsGreaterThan(
+                this.size.width,
+                data.axisLabelPadding.value
+              )
+            ) {
+              reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, label ->
+                index % 2 == 0
+              }.reversed()
+            }
+            reducedLabelsX
+          } else {
+            allLabelsX
+          }.forEach { label ->
+            nativeCanvas.drawText(
+              label.text,
+              label.x,
+              label.y,
+              axisLabelPaint
+            )
+          }
+
+
+          data.yLabels.forEach { ylabel ->
+            val y = (chartBottom - ylabel.atValue / ynormalization).toInt()
+              .toFloat() - data.axisLabelPadding.value
+            nativeCanvas.drawText(
+              ylabel.label,
+              0f,
+              y,
+              axisLabelPaint
+            )
+          }
+
+          if (drillDownPoint != null) {
+            drawLine(
+              color = data.chartColors.drillDownLine,
+              start = Offset(animatedDrillDownX, 0f),
+              end = Offset(
+                animatedDrillDownX, chartBottom
+              ), strokeWidth = 3f
+            )
+          }
         }
-      }
-
-      if (data.drawAxis == DrawAxis.Y || data.drawAxis == DrawAxis.Both) {
-        drawLine(
-          data.chartColors.axis,
-          strokeWidth = data.axisWidth,
-          start = Offset(0f, chartBottom),
-          end = Offset(0f, 0f)
-        )
-      }
-
-      if (data.drawAxis == DrawAxis.X || data.drawAxis == DrawAxis.Both) {
-        drawLine(
-          data.chartColors.axis,
-          strokeWidth = data.axisWidth,
-          start = Offset(0f, chartBottom),
-          end = Offset(maxXValues * xinterval, chartBottom)
-        )
-      }
-
-      val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
-        val formattedXLabel = data.xLabelFormatter(xlabel)
-        val textWidth = axisLabelPaint.measureText(formattedXLabel)
-        val x = when (index) {
-          0 -> 0f
-          data.xLabels.size - 1 -> maxXValues * xinterval - textWidth
-          else -> index * xinterval - textWidth / 2f
-        }
-        Label(x, componentBottom, formattedXLabel, textWidth)
-      }
-
-      if (allLabelsX.combinedWidthIsGreaterThan(this.size.width, data.axisLabelPadding.value)) {
-        var reducedLabelsX = allLabelsX
-        while (reducedLabelsX.combinedWidthIsGreaterThan(
-            this.size.width,
-            data.axisLabelPadding.value
-          )
-        ) {
-          reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, label ->
-            index % 2 == 0
-          }.reversed()
-        }
-        reducedLabelsX
-      } else {
-        allLabelsX
-      }.forEach { label ->
-        nativeCanvas.drawText(
-          label.text,
-          label.x,
-          label.y,
-          axisLabelPaint
-        )
-      }
-
-
-      data.yLabels.forEach { ylabel ->
-        val y = (chartBottom - ylabel.atValue / ynormalization).toInt()
-          .toFloat() - data.axisLabelPadding.value
-        nativeCanvas.drawText(
-          ylabel.label,
-          0f,
-          y,
-          axisLabelPaint
-        )
-      }
-
-      if (drillDownPoint != null) {
-        drawLine(
-          color = data.chartColors.drillDownLine,
-          start = Offset(animatedDrillDownX, 0f),
-          end = Offset(
-            animatedDrillDownX, chartBottom
-          ), strokeWidth = 3f
-        )
-      }
-    }
-  })
+      })
+  }
 
 }
 
