@@ -34,7 +34,8 @@ fun LineChartPreview() {
           )
         ),
         LineChartData.SeriesData(
-          "Line 2", color = Color(0xFF427C9C), gradientFill = true, points = listOf(
+          "Line 2", color = Color(0xFF427C9C), gradientFill = true,
+          points = listOf(
             LineChartData.SeriesData.Point(1, 50f),
             LineChartData.SeriesData.Point(2, 20f),
             LineChartData.SeriesData.Point(3, 80f),

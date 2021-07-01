@@ -33,12 +33,13 @@ fun LinesSimpleScreen() {
             Log.d(
               "LineChart",
               "You are drilling down at xIndex=$xIndex, series values at this index: ${
-                allSeries.map { it.points.find { point -> point.x == xIndex } }
-                  .map { it?.value }
-                  .joinToString()
+              allSeries.map { it.points.find { point -> point.x == xIndex } }
+                .map { it?.value }
+                .joinToString()
               }"
             )
-          })
+          }
+        )
       }
     }
   }

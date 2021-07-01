@@ -36,8 +36,10 @@ fun LineChart(
 
   val maxXValues = data.series.maxOf { it.points.maxOf { point -> point.x } }
 
-  val maxYValue = max(data.series.maxOf { it.points.maxOf { point -> point.value } },
-    if (data.yLabels.isNotEmpty()) data.yLabels.maxOf { it.atValue } else 0f)
+  val maxYValue = max(
+    data.series.maxOf { it.points.maxOf { point -> point.value } },
+    if (data.yLabels.isNotEmpty()) data.yLabels.maxOf { it.atValue } else 0f
+  )
 
   var drillDownPoint by remember { mutableStateOf<Float?>(null) }
 
@@ -67,21 +69,25 @@ fun LineChart(
                   drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
                   onDrillDown(snapToPoint.x, data.series)
                 }
-              })
+              }
+            )
           }
         }
         .pointerInput("tap") {
           if (onDrillDown != null) {
-            detectTapGestures(onTap = {
-              val xinterval = this.size.width / maxXValues
-              val snapToPoint = snapToPoints(xinterval, it.x, data.series)
-              if (snapToPoint != null) {
-                drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
-                onDrillDown(snapToPoint.x, data.series)
+            detectTapGestures(
+              onTap = {
+                val xinterval = this.size.width / maxXValues
+                val snapToPoint = snapToPoints(xinterval, it.x, data.series)
+                if (snapToPoint != null) {
+                  drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
+                  onDrillDown(snapToPoint.x, data.series)
+                }
               }
-            })
+            )
           }
-        }, onDraw = {
+        },
+      onDraw = {
 
         val axisLabelPaint = Paint().apply {
           textSize = data.axisTextSize.toPx()
@@ -90,7 +96,8 @@ fun LineChart(
           isAntiAlias = true
         }
         val heightOfAxisLabels =
-          axisLabelPaint.fontMetrics.descent - axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
+          axisLabelPaint.fontMetrics.descent - axisLabelPaint.fontMetrics.ascent +
+            axisLabelPaint.fontMetrics.leading
 
         val heightOfYAxisLabels =
           if (data.yLabels.isNotEmpty() && data.yLabels.maxOf { it.atValue } >= maxYValue)
@@ -149,7 +156,6 @@ fun LineChart(
             gradientPathBuffer.lineTo(it.points.last().x * xinterval, chartBottom)
             gradientPathBuffer.lineTo(firstPoint.x * xinterval, chartBottom)
             drawPath(gradientPathBuffer, gradient)
-
           }
 
           it.points.forEachIndexed { index, point ->
@@ -157,16 +163,17 @@ fun LineChart(
               val previous = it.points[index - 1]
 
               drawLine(
-                color = it.color, start = Offset(
+                color = it.color,
+                start = Offset(
                   xinterval * previous.x,
                   chartBottom - previous.value / ynormalization
                 ),
                 end = Offset(
                   xinterval * point.x,
                   chartBottom - point.value / ynormalization
-                ), strokeWidth = 4f
+                ),
+                strokeWidth = 4f
               )
-
             }
           }
 
@@ -221,7 +228,6 @@ fun LineChart(
             )
           }
 
-
           data.yLabels.forEach { ylabel ->
             val y = (chartBottom - ylabel.atValue / ynormalization).toInt()
               .toFloat() - data.axisLabelPadding.value
@@ -239,15 +245,15 @@ fun LineChart(
               start = Offset(animatedDrillDownX, 0f),
               end = Offset(
                 animatedDrillDownX, chartBottom
-              ), strokeWidth = 3f
+              ),
+              strokeWidth = 3f
             )
           }
         }
-      })
+      }
+    )
   }
-
 }
-
 
 fun snapToPoints(
   xinterval: Int,
@@ -260,11 +266,7 @@ fun snapToPoints(
 private fun List<Label>.combinedWidthIsGreaterThan(
   totalWidth: Float,
   individualLabelPadding: Float = 0f
-): Boolean {
-  return this.sumOf { label -> label.measuredWidth.toDouble() + individualLabelPadding } > totalWidth
-}
+): Boolean =
+  this.sumOf { label -> label.measuredWidth.toDouble() + individualLabelPadding } > totalWidth
 
 private data class Label(val x: Float, val y: Float, val text: String, val measuredWidth: Float)
-
-
-

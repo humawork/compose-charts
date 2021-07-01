@@ -10,7 +10,6 @@ data class ChartColors(
   val drillDownLine: Color,
 ) {
 
-
   companion object {
     fun defaultColors(
       axis: Color = Color.Black,
@@ -26,5 +25,4 @@ data class ChartColors(
       drillDownLine = drillDownLines
     )
   }
-
 }

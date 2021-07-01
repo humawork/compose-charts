@@ -116,24 +116,28 @@ internal val LinesSampleData = listOf(
   "Lines" to LineChartData(
     series = listOf(
       LineChartData.SeriesData(
-        "Line A", points = listOf(
+        "Line A",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 0f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 20.0f),
           LineChartData.SeriesData.Point(3, 30.0f),
           LineChartData.SeriesData.Point(4, 50.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Red
+        ),
+        Color.Red
       ),
       LineChartData.SeriesData(
-        "Line B", points = listOf(
+        "Line B",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 20f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 5.0f),
           LineChartData.SeriesData.Point(3, 15.0f),
           LineChartData.SeriesData.Point(4, 30.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Blue
+        ),
+        Color.Blue
       ),
     ),
     xLabels = listOf("Year 1", "2", "3", "4", "5", "6")
@@ -141,48 +145,56 @@ internal val LinesSampleData = listOf(
   "Gradient fill" to LineChartData(
     series = listOf(
       LineChartData.SeriesData(
-        title = "Line A", points = listOf(
+        title = "Line A",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 0f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 20.0f),
           LineChartData.SeriesData.Point(3, 30.0f),
           LineChartData.SeriesData.Point(4, 50.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Red, gradientFill = true
+        ),
+        Color.Red, gradientFill = true
       ),
       LineChartData.SeriesData(
-        title = "Line B", points = listOf(
+        title = "Line B",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 20f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 5.0f),
           LineChartData.SeriesData.Point(3, 15.0f),
           LineChartData.SeriesData.Point(4, 30.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Blue, gradientFill = true
+        ),
+        Color.Blue, gradientFill = true
       ),
     ),
   ),
   "Y-axis labels" to LineChartData(
     series = listOf(
       LineChartData.SeriesData(
-        title = "Line A", points = listOf(
+        title = "Line A",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 0f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 20.0f),
           LineChartData.SeriesData.Point(3, 30.0f),
           LineChartData.SeriesData.Point(4, 50.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Red, gradientFill = true
+        ),
+        Color.Red, gradientFill = true
       ),
       LineChartData.SeriesData(
-        title = "Line B", points = listOf(
+        title = "Line B",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 20f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 5.0f),
           LineChartData.SeriesData.Point(3, 15.0f),
           LineChartData.SeriesData.Point(4, 30.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Blue, gradientFill = true
+        ),
+        Color.Blue, gradientFill = true
       ),
     ),
     yLabels = listOf(
@@ -195,24 +207,28 @@ internal val LinesSampleData = listOf(
   "Y-axis labels w/lines" to LineChartData(
     series = listOf(
       LineChartData.SeriesData(
-        title = "Line A", points = listOf(
+        title = "Line A",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 0f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 20.0f),
           LineChartData.SeriesData.Point(3, 30.0f),
           LineChartData.SeriesData.Point(4, 50.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Red, gradientFill = true
+        ),
+        Color.Red, gradientFill = true
       ),
       LineChartData.SeriesData(
-        title = "Line B", points = listOf(
+        title = "Line B",
+        points = listOf(
           LineChartData.SeriesData.Point(0, 20f),
           LineChartData.SeriesData.Point(1, 10.0f),
           LineChartData.SeriesData.Point(2, 5.0f),
           LineChartData.SeriesData.Point(3, 15.0f),
           LineChartData.SeriesData.Point(4, 30.0f),
           LineChartData.SeriesData.Point(5, 35.0f),
-        ), Color.Blue, gradientFill = true
+        ),
+        Color.Blue, gradientFill = true
       ),
     ),
     yLabels = listOf(
@@ -224,7 +240,6 @@ internal val LinesSampleData = listOf(
     horizontalLines = true,
   ),
 )
-
 
 private fun createBars(withColor: Boolean) = listOf(
   listOf(12f, 2f, 3f, 2f),

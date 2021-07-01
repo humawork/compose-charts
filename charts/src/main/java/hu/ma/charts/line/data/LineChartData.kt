@@ -7,7 +7,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 data class LineChartData(
   val series: List<SeriesData>,
   val xLabels: List<String> = emptyList(),
@@ -32,5 +31,4 @@ data class LineChartData(
       val value: Float
     )
   }
-
 }
