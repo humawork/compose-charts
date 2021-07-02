@@ -255,7 +255,7 @@ fun LineChart(
   }
 }
 
-fun snapToPoints(
+private fun snapToPoints(
   xinterval: Int,
   x: Float,
   series: List<LineChartData.SeriesData>
