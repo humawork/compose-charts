@@ -212,7 +212,7 @@ fun LineChart(
                 data.axisLabelPadding.value
               )
             ) {
-              reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, label ->
+              reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, _ ->
                 index % 2 == 0
               }.reversed()
             }
