@@ -18,12 +18,14 @@ data class LineChartData(
   val axisTextSize: TextUnit = 10.sp,
   val axisTypeface: Typeface = Typeface.DEFAULT,
   val axisLabelPadding: Dp = 10.dp,
+  val drillDownIndicatorStrokeWidth: Dp = 3.dp
 ) {
 
   data class SeriesData(
     val title: String,
     val points: List<Point>,
     val color: Color,
+    val strokeWidth: Dp = 4.dp,
     val gradientFill: Boolean = false,
   ) {
     data class Point(

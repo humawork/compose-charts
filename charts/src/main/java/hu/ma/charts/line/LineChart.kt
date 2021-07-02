@@ -127,15 +127,15 @@ fun LineChart(
           }
         }
 
-        data.series.forEach {
+        data.series.forEach { series ->
 
-          if (it.gradientFill) {
+          if (series.gradientFill) {
             val gradientPathBuffer = Path()
             val gradient = Brush.verticalGradient(
-              colors = listOf(it.color, Color.Transparent)
+              colors = listOf(series.color, Color.Transparent)
             )
 
-            val firstPoint = it.points.first()
+            val firstPoint = series.points.first()
 
             gradientPathBuffer.moveTo(
               firstPoint.x * xinterval,
@@ -146,24 +146,24 @@ fun LineChart(
               chartBottom - firstPoint.value / ynormalization
             )
 
-            it.points.subList(1, it.points.size).forEach { point ->
+            series.points.subList(1, series.points.size).forEach { point ->
               gradientPathBuffer.lineTo(
                 point.x * xinterval,
                 chartBottom - point.value / ynormalization
               )
             }
 
-            gradientPathBuffer.lineTo(it.points.last().x * xinterval, chartBottom)
+            gradientPathBuffer.lineTo(series.points.last().x * xinterval, chartBottom)
             gradientPathBuffer.lineTo(firstPoint.x * xinterval, chartBottom)
             drawPath(gradientPathBuffer, gradient)
           }
 
-          it.points.forEachIndexed { index, point ->
+          series.points.forEachIndexed { index, point ->
             if (index > 0) {
-              val previous = it.points[index - 1]
+              val previous = series.points[index - 1]
 
               drawLine(
-                color = it.color,
+                color = series.color,
                 start = Offset(
                   xinterval * previous.x,
                   chartBottom - previous.value / ynormalization
@@ -172,7 +172,7 @@ fun LineChart(
                   xinterval * point.x,
                   chartBottom - point.value / ynormalization
                 ),
-                strokeWidth = 4f
+                strokeWidth = series.strokeWidth.value
               )
             }
           }
@@ -246,7 +246,7 @@ fun LineChart(
               end = Offset(
                 animatedDrillDownX, chartBottom
               ),
-              strokeWidth = 3f
+              strokeWidth = data.drillDownIndicatorStrokeWidth.value
             )
           }
         }
