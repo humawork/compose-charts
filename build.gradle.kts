@@ -31,7 +31,6 @@ allprojects {
       // allWarningsAsErrors = true
 
       freeCompilerArgs = freeCompilerArgs + listOf(
-        "-Xallow-jvm-ir-dependencies",
         "-Xopt-in=kotlin.RequiresOptIn"
       )
       jvmTarget = "1.8"
@@ -52,7 +51,7 @@ subprojects {
         eachDependency {
           // Force Kotlin to our version
           if (requested.group == "org.jetbrains.kotlin") {
-            useVersion("1.4.32")
+            useVersion("1.5.10")
           }
         }
       }

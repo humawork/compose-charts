@@ -33,7 +33,7 @@ internal fun PieChartData.calculateFractions(
   minAngle: Float = 16f,
   maxAngle: Float = 360f
 ): List<Float> {
-  val total = entries.sumByDouble { it.value.toDouble() }.toFloat()
+  val total = entries.sumOf { it.value.toDouble() }.toFloat()
   val entryCount = entries.size
 
   val hasMinAngle = minAngle != 0f && entryCount * minAngle <= maxAngle
