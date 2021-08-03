@@ -38,7 +38,9 @@ fun PieChart(
   @Composable
   fun RowScope.legend() {
     if (legend == null) {
-      DrawVerticalLegend(legendEntries)
+      Column {
+        DrawVerticalLegend(legendEntries)
+      }
     } else {
       legend(legendEntries)
     }

@@ -1,9 +1,7 @@
 package hu.ma.charts.sample.lines
 
 import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -22,12 +20,11 @@ fun LinesSimpleScreen() {
       ChartContainer(
         modifier = Modifier
           .fillMaxWidth()
-          .padding(horizontal = 16.dp)
-          .height(400.dp),
+          .padding(horizontal = 16.dp, vertical = 8.dp),
         title = title
       ) {
         LineChart(
-          modifier = Modifier.fillMaxSize(),
+          chartHeight = 400.dp,
           data = data,
           onDrillDown = { xIndex, allSeries ->
             Log.d(

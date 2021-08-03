@@ -1,10 +1,6 @@
 package hu.ma.charts.sample.preview
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,10 +13,6 @@ import hu.ma.charts.line.data.LineChartData
 @Composable
 fun LineChartPreview() {
   LineChart(
-    modifier = Modifier
-      .size(400.dp, 300.dp)
-      .background(Color(255, 255, 255))
-      .padding(16.dp),
     data = LineChartData(
       series = listOf(
         LineChartData.SeriesData(
@@ -53,6 +45,7 @@ fun LineChartPreview() {
       ),
       horizontalLines = true,
       drawAxis = DrawAxis.None
-    )
+    ),
+    chartHeight = 400.dp
   )
 }

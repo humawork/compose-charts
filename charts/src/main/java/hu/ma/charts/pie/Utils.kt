@@ -1,12 +1,14 @@
 package hu.ma.charts.pie
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import hu.ma.charts.ChartShape
 import hu.ma.charts.internal.DEG2RAD
 import hu.ma.charts.internal.FDEG2RAD
 import hu.ma.charts.internal.safeGet
 import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.line.data.LineChartData
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
@@ -23,6 +25,20 @@ internal fun PieChartData.createLegendEntries(
       percent = item.value * 100f / entries.map { it.value }.reduce { acc, i -> acc + i },
       shape = ChartShape(
         color = item.color ?: colors.safeGet(index),
+        shape = legendShape,
+        size = shapeSize,
+      )
+    )
+  }
+
+internal fun LineChartData.createLegendEntries(
+  shapeSize: Dp,
+): List<LegendEntry> =
+  series.map { item ->
+    LegendEntry(
+      text = AnnotatedString(item.title),
+      shape = ChartShape(
+        color = item.color,
         shape = legendShape,
         size = shapeSize,
       )

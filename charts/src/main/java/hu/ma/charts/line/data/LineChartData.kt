@@ -1,11 +1,15 @@
 package hu.ma.charts.line.data
 
 import android.graphics.Typeface
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hu.ma.charts.legend.LegendAlignment
+import hu.ma.charts.pie.LegendPosition
 
 data class LineChartData(
   val series: List<SeriesData>,
@@ -18,7 +22,12 @@ data class LineChartData(
   val axisTextSize: TextUnit = 10.sp,
   val axisTypeface: Typeface = Typeface.DEFAULT,
   val axisLabelPadding: Dp = 10.dp,
-  val drillDownIndicatorStrokeWidth: Dp = 3.dp
+  val drillDownIndicatorStrokeWidth: Dp = 3.dp,
+  val legendPosition: LegendPosition = LegendPosition.Hidden,
+  val legendAlignment: LegendAlignment = LegendAlignment.Start,
+  val legendOffset: Dp = 16.dp,
+  val legendShapeSize: Dp = 8.dp,
+  val legendShape: Shape = CircleShape,
 ) {
 
   data class SeriesData(
