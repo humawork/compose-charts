@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hu.ma.charts.legend.LegendAlignment
-import hu.ma.charts.pie.LegendPosition
+import hu.ma.charts.legend.LegendPosition
 
 data class LineChartData(
   val series: List<SeriesData>,

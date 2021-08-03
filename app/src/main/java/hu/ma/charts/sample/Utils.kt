@@ -17,7 +17,7 @@ import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.line.data.AxisLabel
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
-import hu.ma.charts.pie.LegendPosition
+import hu.ma.charts.legend.LegendPosition
 import hu.ma.charts.pie.PieChartData
 import hu.ma.charts.pie.PieChartEntry
 import hu.ma.charts.table.TableEntry

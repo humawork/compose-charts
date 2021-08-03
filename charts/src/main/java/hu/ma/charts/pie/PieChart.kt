@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.legend.DrawVerticalLegend
 import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.LegendPosition
 
 @Composable
 fun PieChart(
