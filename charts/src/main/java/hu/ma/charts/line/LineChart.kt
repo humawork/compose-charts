@@ -9,6 +9,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,9 +35,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import com.google.accompanist.flowlayout.FlowColumn
 import hu.ma.charts.internal.createLegendEntries
 import hu.ma.charts.legend.DrawHorizontalLegend
 import hu.ma.charts.legend.DrawVerticalLegend
+import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
 import hu.ma.charts.legend.LegendPosition
@@ -48,18 +51,24 @@ fun LineChart(
   chartHeight: Dp? = null,
   data: LineChartData,
   onDrillDown: ((x: Int, series: List<LineChartData.SeriesData>) -> Unit)? = null,
+  legend: (@Composable (position: LegendPosition, entries: List<LegendEntry>) -> Unit)? = null
 ) {
 
   val legendEntries = remember(data) { data.createLegendEntries(data.legendShapeSize) }
 
   @Composable
-  fun legend() {
-    when (data.legendPosition) {
-      LegendPosition.End, LegendPosition.Start -> {
-        DrawVerticalLegend(legendEntries)
+  fun RowScope.legend() {
+    if (legend == null) {
+
+      when (data.legendPosition) {
+        LegendPosition.End, LegendPosition.Start -> {
+          DrawVerticalLegend(legendEntries = legendEntries)
+        }
+        LegendPosition.Top, LegendPosition.Bottom ->
+          DrawHorizontalLegend(legendEntries)
       }
-      LegendPosition.Top, LegendPosition.Bottom ->
-        DrawHorizontalLegend(legendEntries)
+    } else {
+      legend(data.legendPosition, legendEntries)
     }
   }
 
@@ -101,11 +110,15 @@ fun LineChart(
               .wrapContentWidth()
               .padding(end = data.legendOffset)
           ) {
-            legend()
+            Row {
+              legend()
+            }
           }
         }
 
-        val baseModifier = Modifier.weight(1f)
+        val baseModifier = Modifier
+          .weight(1f)
+          .fillMaxWidth()
         val modifier = if (chartHeight != null) {
           baseModifier.height(chartHeight)
         } else {
@@ -160,7 +173,7 @@ fun LineChart(
               }
               val heightOfAxisLabels =
                 if (data.xLabels.isNotEmpty()) axisLabelPaint.fontMetrics.descent -
-                  axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
+                    axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
                 else 0f
 
               val heightOfYAxisLabels =
@@ -328,7 +341,9 @@ fun LineChart(
               .padding(start = data.legendOffset)
               .wrapContentWidth()
           ) {
-            legend()
+            Row {
+              legend()
+            }
           }
         }
       }
@@ -341,7 +356,7 @@ fun LineChart(
             .fillMaxWidth(),
           horizontalArrangement = data.legendAlignment.toHorizontalArrangement()
         ) {
-          DrawHorizontalLegend(legendEntries)
+          legend()
         }
       }
     }
