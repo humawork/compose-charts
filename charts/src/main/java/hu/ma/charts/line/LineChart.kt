@@ -166,15 +166,21 @@ fun LineChart(
               },
             onDraw = {
 
-              val axisLabelPaint = Paint().apply {
+              val yAxisLabelPaint = Paint().apply {
                 textSize = data.axisTextSize.toPx()
-                color = data.chartColors.label.toArgb()
+                color = data.chartColors.ylabel.toArgb()
+                typeface = data.axisTypeface
+                isAntiAlias = true
+              }
+              val xAxisLabelPaint = Paint().apply {
+                textSize = data.axisTextSize.toPx()
+                color = data.chartColors.xlabel.toArgb()
                 typeface = data.axisTypeface
                 isAntiAlias = true
               }
               val heightOfAxisLabels =
-                if (data.xLabels.isNotEmpty()) axisLabelPaint.fontMetrics.descent -
-                  axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
+                if (data.xLabels.isNotEmpty()) xAxisLabelPaint.fontMetrics.descent -
+                  xAxisLabelPaint.fontMetrics.ascent + xAxisLabelPaint.fontMetrics.leading
                 else 0f
 
               val heightOfYAxisLabels =
@@ -274,7 +280,7 @@ fun LineChart(
                 }
 
                 val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
-                  val textWidth = axisLabelPaint.measureText(xlabel)
+                  val textWidth = xAxisLabelPaint.measureText(xlabel)
                   val x = when (index) {
                     0 -> 0f
                     data.xLabels.size - 1 -> maxXValues * xinterval - textWidth
@@ -306,7 +312,7 @@ fun LineChart(
                     label.text,
                     label.x,
                     label.y,
-                    axisLabelPaint
+                    xAxisLabelPaint
                   )
                 }
 
@@ -317,7 +323,7 @@ fun LineChart(
                     ylabel.label,
                     0f,
                     y,
-                    axisLabelPaint
+                    yAxisLabelPaint
                   )
                 }
 
