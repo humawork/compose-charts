@@ -105,10 +105,12 @@ fun LineChart(
           }
         }
 
-        var modifier = Modifier.weight(1f)
-        modifier = if (chartHeight != null) {
-          modifier.height(chartHeight)
-        } else modifier.fillMaxHeight()
+        val baseModifier = Modifier.weight(1f)
+        val modifier = if (chartHeight != null) {
+          baseModifier.height(chartHeight)
+        } else {
+          baseModifier.fillMaxHeight()
+        }
         Column(modifier = modifier) {
 
           Canvas(
