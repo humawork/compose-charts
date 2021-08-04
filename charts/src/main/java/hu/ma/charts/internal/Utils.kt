@@ -115,7 +115,7 @@ internal fun calculateMinimumRadiusForSpacedSlice(
   // This is the base of the contained triangle
   val basePointsDistance = sqrt(
     (arcEndPointX - arcStartPointX).toDouble().pow(2.0) +
-        (arcEndPointY - arcStartPointY).toDouble().pow(2.0)
+      (arcEndPointY - arcStartPointY).toDouble().pow(2.0)
   )
 
   // After reducing space from both sides of the "slice",
@@ -130,7 +130,7 @@ internal fun calculateMinimumRadiusForSpacedSlice(
   // And now subtract the height of the arc that's between the triangle and the outer circle
   spacedRadius -= sqrt(
     (arcMidPointX - (arcEndPointX + arcStartPointX) / 2f).toDouble().pow(2.0) +
-        (arcMidPointY - (arcEndPointY + arcStartPointY) / 2f).toDouble().pow(2.0)
+      (arcMidPointY - (arcEndPointY + arcStartPointY) / 2f).toDouble().pow(2.0)
   ).toFloat()
 
   return spacedRadius

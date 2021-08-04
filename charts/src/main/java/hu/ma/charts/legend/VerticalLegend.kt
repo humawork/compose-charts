@@ -16,7 +16,8 @@ import androidx.compose.ui.util.fastForEachIndexed
 import hu.ma.charts.internal.DefaultText
 
 @Composable
-fun RowScope.DrawVerticalLegend(modifier: Modifier = Modifier,
+fun RowScope.DrawVerticalLegend(
+  modifier: Modifier = Modifier,
   legendEntries: List<LegendEntry>,
   text: @Composable (entry: LegendEntry) -> Unit = {
     DefaultText(text = it.text)

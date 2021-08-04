@@ -35,14 +35,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import com.google.accompanist.flowlayout.FlowColumn
 import hu.ma.charts.internal.createLegendEntries
 import hu.ma.charts.legend.DrawHorizontalLegend
 import hu.ma.charts.legend.DrawVerticalLegend
 import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.LegendPosition
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
-import hu.ma.charts.legend.LegendPosition
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -173,7 +172,7 @@ fun LineChart(
               }
               val heightOfAxisLabels =
                 if (data.xLabels.isNotEmpty()) axisLabelPaint.fontMetrics.descent -
-                    axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
+                  axisLabelPaint.fontMetrics.ascent + axisLabelPaint.fontMetrics.leading
                 else 0f
 
               val heightOfYAxisLabels =
