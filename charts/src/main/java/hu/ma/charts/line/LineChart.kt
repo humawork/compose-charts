@@ -34,12 +34,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import hu.ma.charts.internal.createLegendEntries
 import hu.ma.charts.legend.DrawHorizontalLegend
 import hu.ma.charts.legend.DrawVerticalLegend
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
 import hu.ma.charts.legend.LegendPosition
-import hu.ma.charts.pie.createLegendEntries
 import kotlin.math.abs
 import kotlin.math.max
 

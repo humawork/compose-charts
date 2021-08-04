@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import hu.ma.charts.internal.calculateFractions
+import hu.ma.charts.internal.createLegendEntries
 import hu.ma.charts.legend.DrawVerticalLegend
 import hu.ma.charts.legend.LegendEntry
 import hu.ma.charts.legend.LegendPosition

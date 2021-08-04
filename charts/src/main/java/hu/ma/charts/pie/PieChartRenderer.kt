@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.util.fastForEachIndexed
 import hu.ma.charts.internal.FDEG2RAD
 import hu.ma.charts.internal.FLOAT_EPSILON
+import hu.ma.charts.internal.calculateMinimumRadiusForSpacedSlice
 import hu.ma.charts.internal.safeGet
 import kotlin.math.cos
 import kotlin.math.max
