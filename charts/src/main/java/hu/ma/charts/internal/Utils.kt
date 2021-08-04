@@ -23,6 +23,20 @@ internal const val DEG2RAD = Math.PI / 180.0
 internal const val FDEG2RAD = Math.PI.toFloat() / 180f
 internal val FLOAT_EPSILON = Float.fromBits(1)
 
+internal fun LineChartData.createLegendEntries(
+  shapeSize: Dp,
+): List<LegendEntry> =
+  series.map { item ->
+    LegendEntry(
+      text = AnnotatedString(item.title),
+      shape = ChartShape(
+        color = item.color,
+        shape = legendShape,
+        size = shapeSize,
+      )
+    )
+  }
+
 internal fun PieChartData.createLegendEntries(
   shapeSize: Dp,
 ): List<LegendEntry> =
@@ -39,25 +53,11 @@ internal fun PieChartData.createLegendEntries(
     )
   }
 
-internal fun LineChartData.createLegendEntries(
-  shapeSize: Dp,
-): List<LegendEntry> =
-  series.map { item ->
-    LegendEntry(
-      text = AnnotatedString(item.title),
-      shape = ChartShape(
-        color = item.color,
-        shape = legendShape,
-        size = shapeSize,
-      )
-    )
-  }
-
 internal fun PieChartData.calculateFractions(
   minAngle: Float = 16f,
   maxAngle: Float = 360f
 ): List<Float> {
-  val total = entries.sumByDouble { it.value.toDouble() }.toFloat()
+  val total = entries.sumOf { it.value.toDouble() }.toFloat()
   val entryCount = entries.size
 
   val hasMinAngle = minAngle != 0f && entryCount * minAngle <= maxAngle
