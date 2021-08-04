@@ -43,6 +43,7 @@ dependencies {
     Dependencies.Compose.iconsExtended,
     Dependencies.Compose.animation,
     Dependencies.Compose.tooling,
+    Dependencies.Compose.toolingPreview,
     Dependencies.Compose.util,
     Dependencies.Accompanist.flow
   ).forEach {

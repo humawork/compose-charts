@@ -25,7 +25,7 @@ internal fun DrawStackedBar(
   widthPx: Float,
   entryPathFactory: EntryPathFactory = { entry, size -> createBarEntryShape(entry, size) },
 ) {
-  val total = remember(entries) { entries.sumByDouble { it.value.toDouble() }.toFloat() }
+  val total = remember(entries) { entries.sumOf { it.value.toDouble() }.toFloat() }
   val width = with(LocalDensity.current) { widthPx.toDp() }
   val spacingPx = with(LocalDensity.current) { EntrySpacing.roundToPx() }
 

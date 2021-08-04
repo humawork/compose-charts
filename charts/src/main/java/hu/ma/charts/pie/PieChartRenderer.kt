@@ -22,6 +22,7 @@ import hu.ma.charts.internal.FDEG2RAD
 import hu.ma.charts.internal.FLOAT_EPSILON
 import hu.ma.charts.internal.calculateMinimumRadiusForSpacedSlice
 import hu.ma.charts.internal.safeGet
+import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
@@ -118,15 +119,12 @@ internal fun PieChartRenderer(
             arcStartPointX, arcStartPointY,
             startAngleOuter,
             sweepAngleOuter
-          ).let {
-            if (it < 0f) -it else it
-          }
+          ).absoluteValue
 
           innerRadius = max(innerRadius, minSpacedRadius)
         }
 
-        val sliceSpaceAngleInner = if (fractions.size == 1 || innerRadius == 0f) 0f
-        else sliceSpacingPx / (FDEG2RAD * innerRadius)
+        val sliceSpaceAngleInner = sliceSpacingPx / (FDEG2RAD * innerRadius)
 
         val startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2f) * phase
         val sweepAngleInner = ((sliceAngle - sliceSpaceAngleInner) * phase).coerceAtLeast(0f)

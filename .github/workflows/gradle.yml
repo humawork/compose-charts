@@ -8,48 +8,9 @@ on:
       - "*"
 
 jobs:
-  validation:
-    name: Validate Gradle Wrapper
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout latest code
-        uses: actions/checkout@v2
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-  gradle:
-    name: Build Gradle Tasks
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-    runs-on: ${{ matrix.os }}
-    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-      - name: Setup JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Cache Gradle Caches
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches/
-          key: cache-gradle-cache
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/wrapper/
-          key: cache-gradle-wrapper
-      - name: Run Gradle tasks
-        run: ./gradlew build --continue
-      - name: Stop Gradle
-        run: ./gradlew --stop
-
   lint:
     name: Run ktlint check
     runs-on: ubuntu-latest
-    needs: gradle
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -69,3 +30,28 @@ jobs:
           key: cache-gradle-wrapper
       - name: Run ktlint check
         run: ./gradlew ktlintCheck
+
+  gradle:
+    name: Build project
+    runs-on: ubuntu-latest
+    needs: lint
+    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache Gradle Caches
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches/
+          key: cache-gradle-cache
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper/
+          key: cache-gradle-wrapper
+      - name: Run Gradle tasks
+        run: ./gradlew build

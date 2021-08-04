@@ -6,5 +6,5 @@ data class StackedBarData(
   val title: AnnotatedString,
   val entries: List<StackedBarEntry>,
 ) {
-  val count get() = entries.sumBy { it.value.toInt() }
+  val count get() = entries.sumOf { it.value.toInt() }
 }
