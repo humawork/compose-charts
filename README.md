@@ -6,12 +6,13 @@
 Jetpack Compose charts library for Android
 
 # Disclaimer
-Current supported Jetpack Compose version: `1.0.0`
+Current supported Jetpack Compose version: `1.0.1`
 
 This library is WIP, and at the moment only contains the following charts:
 - `PieChart`
-- `Table`
+- `TableChart`
 - `HorizontalBarsChart`
+- `LinesChart`
 
 ## Download
 
