@@ -53,7 +53,9 @@ fun HorizontalBarsChart(
   data: HorizontalBarsData,
   modifier: Modifier = Modifier,
   divider: @Composable (() -> Unit)? = null,
-  legend: @Composable (ColumnScope.(entries: List<LegendEntry>) -> Unit)? = null,
+  legend: @Composable (ColumnScope.(entries: List<LegendEntry>) -> Unit)? = {
+    HorizontalLegend(legendEntries = it)
+  },
   legendOffset: Dp = 4.dp,
   dropdownModifier: Modifier = DropdownDefaultModifier,
   dropdownContent: @Composable (StackedBarData) -> Unit = {
@@ -70,8 +72,6 @@ fun HorizontalBarsChart(
   Column(modifier = modifier) {
     if (legend != null) {
       legend(legendEntries)
-    } else {
-      HorizontalLegend(legendEntries = legendEntries)
     }
 
     Spacer(

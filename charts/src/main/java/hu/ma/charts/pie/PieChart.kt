@@ -30,7 +30,9 @@ fun PieChart(
   legendOffset: Dp = 24.dp,
   chartShapeSize: Dp = 8.dp,
   sliceSpacing: Dp = 2.dp,
-  legend: @Composable (RowScope.(entries: List<LegendEntry>) -> Unit)? = null,
+  legend: @Composable (RowScope.(entries: List<LegendEntry>) -> Unit)? = {
+    VerticalLegend(modifier = Modifier.weight(1f), legendEntries = it)
+  },
 ) {
   val fractions = remember(data) { data.calculateFractions() }
   val legendEntries = remember(data) { data.createLegendEntries(chartShapeSize) }
@@ -39,19 +41,12 @@ fun PieChart(
   val sliceWidthPx = with(LocalDensity.current) { sliceWidth.toPx() }
   val sliceSpacingPx = with(LocalDensity.current) { sliceSpacing.toPx() }
 
-  @Composable
-  fun RowScope.legend() {
-    if (legend == null) {
-      VerticalLegend(modifier = Modifier.weight(1f), legendEntries = legendEntries)
-    } else {
-      legend(legendEntries)
-    }
-  }
-
   Column(Modifier.fillMaxWidth()) {
     if (data.legendPosition == LegendPosition.Top) {
       Row {
-        legend()
+        if (legend != null) {
+          legend(legendEntries)
+        }
       }
       Spacer(modifier = Modifier.requiredSize(legendOffset))
     }
@@ -64,7 +59,9 @@ fun PieChart(
       val entryColors = data.entries.mapNotNull { it.color }
 
       if (data.legendPosition == LegendPosition.Start) {
-        legend()
+        if (legend != null) {
+          legend(legendEntries)
+        }
         Spacer(modifier = Modifier.requiredSize(legendOffset))
       }
 
@@ -80,14 +77,18 @@ fun PieChart(
 
       if (data.legendPosition == LegendPosition.End) {
         Spacer(modifier = Modifier.requiredSize(legendOffset))
-        legend()
+        if (legend != null) {
+          legend(legendEntries)
+        }
       }
     }
 
     if (data.legendPosition == LegendPosition.Bottom) {
       Spacer(modifier = Modifier.requiredSize(legendOffset))
       Row {
-        legend()
+        if (legend != null) {
+          legend(legendEntries)
+        }
       }
     }
   }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,30 +45,31 @@ import kotlin.math.abs
 import kotlin.math.max
 
 @Composable
+fun LinesChartLegend(position: LegendPosition, entries: List<LegendEntry>) {
+  when (position) {
+    LegendPosition.End, LegendPosition.Start -> {
+      VerticalLegend(legendEntries = entries)
+    }
+    LegendPosition.Top, LegendPosition.Bottom ->
+      HorizontalLegend(legendEntries = entries)
+  }
+}
+
+@Composable
 fun LineChart(
   chartHeight: Dp? = null,
   data: LineChartData,
   onDrillDown: ((x: Int, series: List<LineChartData.SeriesData>) -> Unit)? = null,
-  legend: (@Composable (position: LegendPosition, entries: List<LegendEntry>) -> Unit)? = null
-) {
-
-  val legendEntries = remember(data) { data.createLegendEntries(data.legendShapeSize) }
-
-  @Composable
-  fun RowScope.legend() {
-    if (legend == null) {
-
-      when (data.legendPosition) {
-        LegendPosition.End, LegendPosition.Start -> {
-          VerticalLegend(legendEntries = legendEntries)
-        }
-        LegendPosition.Top, LegendPosition.Bottom ->
-          HorizontalLegend(legendEntries)
-      }
-    } else {
-      legend(data.legendPosition, legendEntries)
-    }
+  legend: (
+    @Composable (
+      position: LegendPosition,
+      entries: List<LegendEntry>
+    ) -> Unit
+  )? = { position, entries ->
+    LinesChartLegend(position = position, entries = entries)
   }
+) {
+  val legendEntries = remember(data) { data.createLegendEntries(data.legendShapeSize) }
 
   val maxXValues = data.series.maxOf { it.points.maxOf { point -> point.x } }
 
@@ -90,7 +90,9 @@ fun LineChart(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = data.legendAlignment.toHorizontalArrangement()
         ) {
-          legend()
+          if (legend != null) {
+            legend(data.legendPosition, legendEntries)
+          }
         }
         Spacer(modifier = Modifier.requiredSize(data.legendOffset))
       }
@@ -110,8 +112,8 @@ fun LineChart(
               .wrapContentWidth()
               .padding(end = data.legendOffset)
           ) {
-            Row {
-              legend()
+            if (legend != null) {
+              legend(data.legendPosition, legendEntries)
             }
           }
         }
@@ -347,8 +349,8 @@ fun LineChart(
               .padding(start = data.legendOffset)
               .wrapContentWidth()
           ) {
-            Row {
-              legend()
+            if (legend != null) {
+              legend(data.legendPosition, legendEntries)
             }
           }
         }
@@ -362,7 +364,9 @@ fun LineChart(
             .fillMaxWidth(),
           horizontalArrangement = data.legendAlignment.toHorizontalArrangement()
         ) {
-          legend()
+          if (legend != null) {
+            legend(data.legendPosition, legendEntries)
+          }
         }
       }
     }
