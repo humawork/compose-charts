@@ -127,12 +127,14 @@ internal fun StackedHorizontalBar(
   title: TextRowFactory = {},
   value: TextRowFactory = {},
 ) {
-  val entries = data.entries.mapIndexed { idx, item ->
-    StackedBarItem(
-      text = item.text,
-      value = item.value,
-      color = item.color ?: colors.safeGet(idx)
-    )
+  val entries = remember(data) {
+    data.entries.mapIndexed { idx, item ->
+      StackedBarItem(
+        text = item.text,
+        value = item.value,
+        color = item.color ?: colors.safeGet(idx)
+      )
+    }
   }
 
   Column(modifier) {
