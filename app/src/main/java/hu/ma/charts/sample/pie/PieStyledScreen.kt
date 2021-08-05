@@ -54,7 +54,7 @@ fun PieStyledScreen() {
 }
 
 @Composable
-private fun RowScope.CustomVerticalLegend(entries: List<LegendEntry>) {
+internal fun RowScope.CustomVerticalLegend(entries: List<LegendEntry>) {
   Column(
     modifier = Modifier.Companion.weight(1f),
   ) {

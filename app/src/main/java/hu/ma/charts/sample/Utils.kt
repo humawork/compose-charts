@@ -12,8 +12,12 @@ import hu.ma.charts.ChartShape
 import hu.ma.charts.bars.data.HorizontalBarsData
 import hu.ma.charts.bars.data.StackedBarData
 import hu.ma.charts.bars.data.StackedBarEntry
+import hu.ma.charts.legend.LegendAlignment
 import hu.ma.charts.legend.LegendEntry
-import hu.ma.charts.pie.LegendPosition
+import hu.ma.charts.legend.LegendPosition
+import hu.ma.charts.line.data.AxisLabel
+import hu.ma.charts.line.data.DrawAxis
+import hu.ma.charts.line.data.LineChartData
 import hu.ma.charts.pie.PieChartData
 import hu.ma.charts.pie.PieChartEntry
 import hu.ma.charts.table.TableEntry
@@ -109,6 +113,354 @@ internal val BarsSampleData = listOf(
   ),
 )
 
+internal val LinesSampleData = listOf(
+  "Lines" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red
+      ),
+      LineChartData.SeriesData(
+        "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue
+      ),
+    ),
+    xLabels = listOf("Year 1", "2", "3", "4", "5", "6")
+  ),
+  "Gradient fill" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+  ),
+  "Y-axis labels" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+  ),
+  "Y-axis labels w/lines" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+  ),
+  "Legend top" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.Top,
+  ),
+  "Legend bottom" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.Bottom,
+  ),
+  "Legend start" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.Start,
+  ),
+  "Legend end" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.End,
+  ),
+  "Legend end, vertical alignment" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.End,
+    legendAlignment = LegendAlignment.Center,
+  ),
+  "Legend bottom, center alignment" to LineChartData(
+    series = listOf(
+      LineChartData.SeriesData(
+        title = "Line A",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 0f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 20.0f),
+          LineChartData.SeriesData.Point(3, 30.0f),
+          LineChartData.SeriesData.Point(4, 50.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Red, gradientFill = true
+      ),
+      LineChartData.SeriesData(
+        title = "Line B",
+        points = listOf(
+          LineChartData.SeriesData.Point(0, 20f),
+          LineChartData.SeriesData.Point(1, 10.0f),
+          LineChartData.SeriesData.Point(2, 5.0f),
+          LineChartData.SeriesData.Point(3, 15.0f),
+          LineChartData.SeriesData.Point(4, 30.0f),
+          LineChartData.SeriesData.Point(5, 35.0f),
+        ),
+        Color.Blue, gradientFill = true
+      ),
+    ),
+    xLabels = listOf("A", "B", "C", "D", "E", "F"),
+    yLabels = listOf(
+      AxisLabel(0f, "0K"),
+      AxisLabel(20f, "20K"),
+      AxisLabel(40f, "40K"),
+    ),
+    drawAxis = DrawAxis.X,
+    horizontalLines = true,
+    legendPosition = LegendPosition.Bottom,
+    legendAlignment = LegendAlignment.Center,
+  ),
+)
+
 private fun createBars(withColor: Boolean) = listOf(
   listOf(12f, 2f, 3f, 2f),
   listOf(3f, 2f, 4f, 5f),
@@ -129,14 +481,15 @@ private fun createBars(withColor: Boolean) = listOf(
 
 @Composable
 internal fun buildValuePercentString(item: LegendEntry) = buildAnnotatedString {
-  withStyle(
-    style = MaterialTheme.typography.body2.toSpanStyle()
-      .copy(color = MaterialTheme.colors.primary)
-  ) {
-    append(item.value.toInt().toString())
+  item.value?.let { value ->
+    withStyle(
+      style = MaterialTheme.typography.body2.toSpanStyle()
+        .copy(color = MaterialTheme.colors.primary)
+    ) {
+      append(value.toInt().toString())
+    }
+    append(" ")
   }
-
-  append(" ")
 
   withStyle(
     style = MaterialTheme.typography.caption.toSpanStyle()

@@ -17,13 +17,14 @@ import hu.ma.charts.internal.DefaultText
 
 @Composable
 fun RowScope.DrawVerticalLegend(
+  modifier: Modifier = Modifier,
   legendEntries: List<LegendEntry>,
   text: @Composable (entry: LegendEntry) -> Unit = {
     DefaultText(text = it.text)
   },
 ) {
   Column(
-    modifier = Modifier.weight(1f),
+    modifier = modifier,
     verticalArrangement = Arrangement.Center
   ) {
     legendEntries.fastForEachIndexed { idx, item ->

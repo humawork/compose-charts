@@ -4,13 +4,12 @@ plugins {
 }
 
 android {
-  compileSdkVersion(Config.targetSdk)
-  buildToolsVersion = Config.buildTools
+  compileSdk = Config.targetSdk
 
   defaultConfig {
     applicationId = "hu.ma.charts.sample"
-    minSdkVersion(Config.minSdk)
-    targetSdkVersion(Config.targetSdk)
+    minSdk = Config.minSdk
+    targetSdk = Config.targetSdk
     versionCode = 1
     versionName = "1.0"
   }
@@ -49,6 +48,7 @@ dependencies {
     Dependencies.Compose.iconsExtended,
     Dependencies.Compose.animation,
     Dependencies.Compose.util,
+    Dependencies.Compose.tooling,
     Dependencies.Compose.Navigation.core
   ).forEach {
     implementation(it)

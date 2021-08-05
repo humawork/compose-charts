@@ -3,6 +3,7 @@ package hu.ma.charts.pie
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import hu.ma.charts.legend.LegendPosition
 
 data class PieChartData(
   val entries: List<PieChartEntry>,
