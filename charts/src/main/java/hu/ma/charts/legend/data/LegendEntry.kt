@@ -1,4 +1,4 @@
-package hu.ma.charts.legend
+package hu.ma.charts.legend.data
 
 import androidx.compose.ui.text.AnnotatedString
 import hu.ma.charts.ChartShape

@@ -4,9 +4,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import hu.ma.charts.ChartShape
-import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.data.LegendEntry
 import hu.ma.charts.line.data.LineChartData
-import hu.ma.charts.pie.PieChartData
+import hu.ma.charts.pie.data.PieChartData
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin

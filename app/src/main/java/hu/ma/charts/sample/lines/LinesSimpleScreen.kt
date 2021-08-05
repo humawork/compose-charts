@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
-import hu.ma.charts.legend.LegendPosition
+import hu.ma.charts.legend.data.LegendPosition
 import hu.ma.charts.line.LineChart
 import hu.ma.charts.sample.ChartContainer
 import hu.ma.charts.sample.LinesSampleData

@@ -12,15 +12,15 @@ import hu.ma.charts.ChartShape
 import hu.ma.charts.bars.data.HorizontalBarsData
 import hu.ma.charts.bars.data.StackedBarData
 import hu.ma.charts.bars.data.StackedBarEntry
-import hu.ma.charts.legend.LegendAlignment
-import hu.ma.charts.legend.LegendEntry
-import hu.ma.charts.legend.LegendPosition
+import hu.ma.charts.legend.data.LegendAlignment
+import hu.ma.charts.legend.data.LegendEntry
+import hu.ma.charts.legend.data.LegendPosition
 import hu.ma.charts.line.data.AxisLabel
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
-import hu.ma.charts.pie.PieChartData
-import hu.ma.charts.pie.PieChartEntry
-import hu.ma.charts.table.TableEntry
+import hu.ma.charts.pie.data.PieChartData
+import hu.ma.charts.pie.data.PieChartEntry
+import hu.ma.charts.table.data.TableEntry
 import kotlin.math.roundToInt
 import kotlin.random.Random
 

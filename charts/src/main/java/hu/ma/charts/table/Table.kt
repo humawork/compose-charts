@@ -8,22 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.internal.DefaultText
-
-@Deprecated(
-  "Use TableChart instead",
-  ReplaceWith("TableChart(data, modifier, shapeModifier, keyText, valueText, divider)")
-)
-@Composable
-fun Table(
-  data: List<TableEntry>,
-  modifier: Modifier = Modifier,
-  shapeModifier: Modifier = Modifier.requiredSize(8.dp),
-  keyText: @Composable RowScope.(key: AnnotatedString?) -> Unit = { DefaultText(text = it) },
-  valueText: @Composable RowScope.(value: AnnotatedString?) -> Unit = { DefaultText(text = it) },
-  divider: @Composable (() -> Unit)? = null,
-) {
-  TableChart(data, modifier, shapeModifier, keyText, valueText, divider)
-}
+import hu.ma.charts.table.data.TableEntry
 
 @Composable
 fun TableChart(

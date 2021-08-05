@@ -1,4 +1,4 @@
-package hu.ma.charts.table
+package hu.ma.charts.table.data
 
 import androidx.compose.ui.text.AnnotatedString
 import hu.ma.charts.ChartShape

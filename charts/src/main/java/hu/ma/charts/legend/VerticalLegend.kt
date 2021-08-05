@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
@@ -14,9 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import hu.ma.charts.internal.DefaultText
+import hu.ma.charts.legend.data.LegendEntry
 
 @Composable
-fun RowScope.DrawVerticalLegend(
+fun VerticalLegend(
   modifier: Modifier = Modifier,
   legendEntries: List<LegendEntry>,
   text: @Composable (entry: LegendEntry) -> Unit = {

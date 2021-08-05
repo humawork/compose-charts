@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.data.LegendEntry
 import hu.ma.charts.pie.PieChart
 import hu.ma.charts.sample.ChartContainer
 import hu.ma.charts.sample.PieSampleData

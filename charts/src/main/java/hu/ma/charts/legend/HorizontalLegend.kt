@@ -12,9 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.google.accompanist.flowlayout.FlowRow
 import hu.ma.charts.internal.DefaultText
+import hu.ma.charts.legend.data.LegendEntry
 
 @Composable
-fun DrawHorizontalLegend(
+fun HorizontalLegend(
   legendEntries: List<LegendEntry>,
   text: @Composable (item: LegendEntry) -> Unit = { DefaultText(text = it.text) },
 ) {

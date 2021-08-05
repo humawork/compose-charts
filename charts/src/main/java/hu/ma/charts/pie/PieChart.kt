@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import hu.ma.charts.internal.calculateFractions
 import hu.ma.charts.internal.createLegendEntries
-import hu.ma.charts.legend.DrawVerticalLegend
-import hu.ma.charts.legend.LegendEntry
-import hu.ma.charts.legend.LegendPosition
+import hu.ma.charts.legend.VerticalLegend
+import hu.ma.charts.legend.data.LegendEntry
+import hu.ma.charts.legend.data.LegendPosition
+import hu.ma.charts.pie.data.PieChartData
 
 @Composable
 fun PieChart(
@@ -41,7 +42,7 @@ fun PieChart(
   @Composable
   fun RowScope.legend() {
     if (legend == null) {
-      DrawVerticalLegend(modifier = Modifier.weight(1f), legendEntries = legendEntries)
+      VerticalLegend(modifier = Modifier.weight(1f), legendEntries = legendEntries)
     } else {
       legend(legendEntries)
     }

@@ -1,4 +1,4 @@
-package hu.ma.charts.pie
+package hu.ma.charts.pie.data
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString

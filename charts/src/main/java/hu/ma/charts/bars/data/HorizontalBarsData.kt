@@ -1,7 +1,7 @@
 package hu.ma.charts.bars.data
 
 import androidx.compose.ui.graphics.Color
-import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.data.LegendEntry
 
 data class HorizontalBarsData(
   /**

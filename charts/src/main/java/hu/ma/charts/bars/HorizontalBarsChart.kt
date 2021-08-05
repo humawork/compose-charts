@@ -34,8 +34,8 @@ import hu.ma.charts.bars.data.StackedBarData
 import hu.ma.charts.bars.data.StackedBarItem
 import hu.ma.charts.internal.DefaultText
 import hu.ma.charts.internal.safeGet
-import hu.ma.charts.legend.DrawHorizontalLegend
-import hu.ma.charts.legend.LegendEntry
+import hu.ma.charts.legend.HorizontalLegend
+import hu.ma.charts.legend.data.LegendEntry
 import kotlin.math.min
 
 internal val MinimumBarWidth = 24.dp
@@ -71,7 +71,7 @@ fun HorizontalBarsChart(
     if (legend != null) {
       legend(legendEntries)
     } else {
-      DrawHorizontalLegend(legendEntries = legendEntries)
+      HorizontalLegend(legendEntries = legendEntries)
     }
 
     Spacer(
