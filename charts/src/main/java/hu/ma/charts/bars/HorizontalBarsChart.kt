@@ -72,13 +72,13 @@ fun HorizontalBarsChart(
   Column(modifier = modifier) {
     if (legend != null) {
       legend(legendEntries)
-    }
 
-    Spacer(
-      modifier = Modifier
-        .fillMaxWidth()
-        .requiredHeight(legendOffset)
-    )
+      Spacer(
+        modifier = Modifier
+          .fillMaxWidth()
+          .requiredHeight(legendOffset)
+      )
+    }
 
     val maxValue = data.bars.maxByOrNull { bar -> bar.count }?.count ?: 0
 
