@@ -85,14 +85,12 @@ fun LineChart(
     val maxWidth = this.maxWidth
 
     Column {
-      if (data.legendPosition == LegendPosition.Top) {
+      if (data.legendPosition == LegendPosition.Top && legend != null) {
         Row(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = data.legendAlignment.toHorizontalArrangement()
         ) {
-          if (legend != null) {
-            legend(data.legendPosition, legendEntries)
-          }
+          legend(data.legendPosition, legendEntries)
         }
         Spacer(modifier = Modifier.requiredSize(data.legendOffset))
       }
@@ -106,15 +104,13 @@ fun LineChart(
         verticalAlignment = data.legendAlignment.toVerticalAlignment()
       ) {
 
-        if (data.legendPosition == LegendPosition.Start) {
+        if (data.legendPosition == LegendPosition.Start && legend != null) {
           Column(
             modifier = Modifier
               .wrapContentWidth()
               .padding(end = data.legendOffset)
           ) {
-            if (legend != null) {
-              legend(data.legendPosition, legendEntries)
-            }
+            legend(data.legendPosition, legendEntries)
           }
         }
 
@@ -343,20 +339,18 @@ fun LineChart(
           )
         }
 
-        if (data.legendPosition == LegendPosition.End) {
+        if (data.legendPosition == LegendPosition.End && legend != null) {
           Column(
             modifier = Modifier
               .padding(start = data.legendOffset)
               .wrapContentWidth()
           ) {
-            if (legend != null) {
-              legend(data.legendPosition, legendEntries)
-            }
+            legend(data.legendPosition, legendEntries)
           }
         }
       }
 
-      if (data.legendPosition == LegendPosition.Bottom) {
+      if (data.legendPosition == LegendPosition.Bottom && legend != null) {
         Spacer(modifier = Modifier.requiredHeight(data.legendOffset))
         Row(
           modifier = Modifier
@@ -364,9 +358,7 @@ fun LineChart(
             .fillMaxWidth(),
           horizontalArrangement = data.legendAlignment.toHorizontalArrangement()
         ) {
-          if (legend != null) {
-            legend(data.legendPosition, legendEntries)
-          }
+          legend(data.legendPosition, legendEntries)
         }
       }
     }
