@@ -71,7 +71,7 @@ fun LineChart(
 ) {
   val legendEntries = remember(data) { data.createLegendEntries(data.legendShapeSize) }
 
-  val maxXValues = data.series.maxOf { it.points.maxOf { point -> point.x } }
+  val maxNumberOfPointsOnX = data.series.maxOf { it.points.maxOf { point -> point.x } }
 
   val maxYValue = max(
     data.series.maxOf { it.points.maxOf { point -> point.value } },
@@ -132,16 +132,16 @@ fun LineChart(
             modifier = Modifier
               .fillMaxSize()
               .background(data.chartColors.background)
-              .pointerInput("drag") {
+              .pointerInput(maxNumberOfPointsOnX) {
                 if (onDrillDown != null) {
                   detectHorizontalDragGestures(
                     onHorizontalDrag = { change, _ ->
-                      if (change.position.x >= 0 && change.position.x <= this.size.width) {
+                      if (change.position.x >= 0 && change.position.x <= maxWidth.toPx()) {
                         drillDownPoint = change.position.x
                       }
                     },
                     onDragEnd = {
-                      val xinterval = this.size.width / maxXValues
+                      val xinterval = maxWidth.toPx() / maxNumberOfPointsOnX
                       val snapToPoint = snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
                       if (snapToPoint != null) {
                         drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
@@ -151,11 +151,11 @@ fun LineChart(
                   )
                 }
               }
-              .pointerInput("tap") {
+              .pointerInput(maxNumberOfPointsOnX) {
                 if (onDrillDown != null) {
                   detectTapGestures(
                     onTap = {
-                      val xinterval = this.size.width / maxXValues
+                      val xinterval = maxWidth.toPx() / maxNumberOfPointsOnX
                       val snapToPoint = snapToPoints(xinterval, it.x, data.series)
                       if (snapToPoint != null) {
                         drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
@@ -193,7 +193,7 @@ fun LineChart(
               val chartAreaHeight = componentBottom - heightOfAxisLabels - heightOfYAxisLabels
               val chartBottom = componentBottom - heightOfAxisLabels
 
-              val xinterval = this.size.width / maxXValues.toFloat()
+              val xinterval = this.size.width / maxNumberOfPointsOnX.toFloat()
               val ynormalization = maxYValue / chartAreaHeight
 
               val nativeCanvas = drawContext.canvas.nativeCanvas
@@ -276,7 +276,7 @@ fun LineChart(
                     data.chartColors.axis,
                     strokeWidth = data.axisWidth,
                     start = Offset(0f, chartBottom),
-                    end = Offset(maxXValues * xinterval, chartBottom)
+                    end = Offset(maxNumberOfPointsOnX * xinterval, chartBottom)
                   )
                 }
 
@@ -284,7 +284,7 @@ fun LineChart(
                   val textWidth = xAxisLabelPaint.measureText(xlabel)
                   val x = when (index) {
                     0 -> 0f
-                    data.xLabels.size - 1 -> maxXValues * xinterval - textWidth
+                    data.xLabels.size - 1 -> maxNumberOfPointsOnX * xinterval - textWidth
                     else -> index * xinterval - textWidth / 2f
                   }
                   Label(x, componentBottom, xlabel, textWidth)
@@ -374,7 +374,7 @@ fun LineChart(
 }
 
 private fun snapToPoints(
-  xinterval: Int,
+  xinterval: Float,
   x: Float,
   series: List<LineChartData.SeriesData>
 ): LineChartData.SeriesData.Point? =
