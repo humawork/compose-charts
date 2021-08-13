@@ -289,17 +289,15 @@ fun LineChart(
                 if (allLabelsX.combinedWidthIsGreaterThan(
                     this.size.width,
                     data.axisLabelPadding.value
-                  )
+                  ) || allLabelsX.anyAreOverlapping()
                 ) {
                   var reducedLabelsX = allLabelsX
                   while (reducedLabelsX.combinedWidthIsGreaterThan(
                       this.size.width,
                       data.axisLabelPadding.value
-                    )
+                    ) || reducedLabelsX.anyAreOverlapping()
                   ) {
-                    reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, _ ->
-                      index % 2 == 0
-                    }.reversed()
+                    reducedLabelsX = reducedLabelsX.filterIndexed { index, _ -> index % 3 == 0 }
                   }
                   reducedLabelsX
                 } else {
@@ -378,5 +376,13 @@ private fun List<Label>.combinedWidthIsGreaterThan(
   individualLabelPadding: Float = 0f
 ): Boolean =
   this.sumOf { label -> label.measuredWidth.toDouble() + individualLabelPadding } > totalWidth
+
+private fun List<Label>.anyAreOverlapping(): Boolean {
+  return this.filterIndexed { index, label ->
+    if (index != this.lastIndex) {
+      label.x + label.measuredWidth >= this[index + 1].x
+    } else false
+  }.count() > 0
+}
 
 private data class Label(val x: Float, val y: Float, val text: String, val measuredWidth: Float)
