@@ -39,10 +39,10 @@ import hu.ma.charts.legend.HorizontalLegend
 import hu.ma.charts.legend.VerticalLegend
 import hu.ma.charts.legend.data.LegendEntry
 import hu.ma.charts.legend.data.LegendPosition
+import hu.ma.charts.line.data.AxisLabel
 import hu.ma.charts.line.data.DrawAxis
 import hu.ma.charts.line.data.LineChartData
 import kotlin.math.abs
-import kotlin.math.max
 
 @Composable
 fun LinesChartLegend(position: LegendPosition, entries: List<LegendEntry>) {
@@ -73,13 +73,46 @@ fun LineChart(
 
   val maxNumberOfPointsOnX = data.series.maxOf { it.points.maxOf { point -> point.x } }
 
-  val maxYValue = max(
-    data.series.maxOf { it.points.maxOf { point -> point.value } },
-    if (data.yLabels.isNotEmpty()) data.yLabels.maxOf { it.atValue } else 0f
-  )
+  val maxYValueFromData = data.series.maxOf { it.points.maxOf { point -> point.value } }
 
   var drillDownPoint by remember { mutableStateOf<Float?>(null) }
   drillDownPoint = null
+
+  val minYValue = data.series.minOf { series -> series.points.minOf { it.value } }
+  val yValueAdjustment =
+    if (data.floatingYValue) (minYValue - minYValue * 0.05f) else 0f
+
+  val yLabels = when {
+    data.autoYLabels -> {
+      val numberOfLabels = if (data.maxYLabels == Int.MAX_VALUE) 5 else data.maxYLabels
+
+      val topYLabelValue = maxYValueFromData +
+        maxYValueFromData * (0.1 - 0.1 * (yValueAdjustment / maxYValueFromData))
+
+      val labelInterval = (topYLabelValue - yValueAdjustment) / (numberOfLabels - 1)
+
+      (0 until numberOfLabels).map {
+        val intValue = (yValueAdjustment + it * labelInterval).toInt()
+        AxisLabel(
+          intValue.toFloat(),
+          if (intValue < 1000) intValue.toString() else "${intValue / 1000}K"
+        )
+      }
+    }
+    else -> {
+      if (data.floatingYValue) data.yLabels.filter { it.atValue >= minYValue }
+      else data.yLabels
+    }
+  }
+
+  val hasYLabelsOutsideChartValueRange =
+    yLabels.isNotEmpty() && yLabels.maxOf { it.atValue } >= maxYValueFromData
+
+  val maxYValueAdjusted = if (hasYLabelsOutsideChartValueRange) {
+    yLabels.maxOf { it.atValue }
+  } else {
+    maxYValueFromData
+  }
 
   BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
     val maxWidth = this.maxWidth
@@ -138,7 +171,8 @@ fun LineChart(
                     },
                     onDragEnd = {
                       val xinterval = maxWidth.toPx() / maxNumberOfPointsOnX
-                      val snapToPoint = snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
+                      val snapToPoint =
+                        snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
                       if (snapToPoint != null) {
                         drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
                         onDrillDown(snapToPoint.x, data.series)
@@ -175,27 +209,26 @@ fun LineChart(
                 typeface = data.axisTypeface
                 isAntiAlias = true
               }
+
               val heightOfAxisLabels =
-                if (data.xLabels.isNotEmpty()) xAxisLabelPaint.fontMetrics.descent -
-                  xAxisLabelPaint.fontMetrics.ascent + xAxisLabelPaint.fontMetrics.leading
+                if (data.xLabels.isNotEmpty()) xAxisLabelPaint.textHeight()
                 else 0f
 
-              val heightOfYAxisLabels =
-                if (data.yLabels.isNotEmpty() && data.yLabels.maxOf { it.atValue } >= maxYValue)
-                  heightOfAxisLabels + data.axisLabelPadding.value
+              val heightOfYLabelsBeyondChart =
+                if (yLabels.isNotEmpty() && hasYLabelsOutsideChartValueRange)
+                  xAxisLabelPaint.textHeight() + data.axisLabelPadding.value
                 else 0f
 
               val componentBottom = this.size.height
-              val chartAreaHeight = componentBottom - heightOfAxisLabels - heightOfYAxisLabels
+              val chartAreaHeight =
+                componentBottom - heightOfAxisLabels - heightOfYLabelsBeyondChart
               val chartBottom = componentBottom - heightOfAxisLabels
 
               val xinterval = this.size.width / maxNumberOfPointsOnX.toFloat()
-              val ynormalization = maxYValue / chartAreaHeight
+              val ynormalization = (maxYValueAdjusted - yValueAdjustment) / chartAreaHeight
 
-              val nativeCanvas = drawContext.canvas.nativeCanvas
-
-              data.yLabels.forEach { ylabel ->
-                val y = (chartBottom - (ylabel.atValue / ynormalization)).toInt().toFloat()
+              yLabels.forEach { ylabel ->
+                val y = chartBottom - ((ylabel.atValue - yValueAdjustment) / ynormalization)
                 if (data.horizontalLines) {
                   drawLine(
                     data.chartColors.horizontalLines,
@@ -224,13 +257,13 @@ fun LineChart(
                   )
                   gradientPathBuffer.lineTo(
                     firstPoint.x * xinterval,
-                    chartBottom - firstPoint.value / ynormalization
+                    chartBottom - (firstPoint.value - yValueAdjustment) / ynormalization
                   )
 
                   series.points.subList(1, series.points.size).forEach { point ->
                     gradientPathBuffer.lineTo(
                       point.x * xinterval,
-                      chartBottom - point.value / ynormalization
+                      chartBottom - (point.value - yValueAdjustment) / ynormalization
                     )
                   }
 
@@ -247,93 +280,92 @@ fun LineChart(
                       color = series.color,
                       start = Offset(
                         xinterval * previous.x,
-                        chartBottom - previous.value / ynormalization
+                        chartBottom - (previous.value - yValueAdjustment) / ynormalization
                       ),
                       end = Offset(
                         xinterval * point.x,
-                        chartBottom - point.value / ynormalization
+                        chartBottom - (point.value - yValueAdjustment) / ynormalization
                       ),
                       strokeWidth = series.strokeWidth.value
                     )
                   }
                 }
+              }
 
-                if (data.drawAxis == DrawAxis.Y || data.drawAxis == DrawAxis.Both) {
-                  drawLine(
-                    data.chartColors.axis,
-                    strokeWidth = data.axisWidth,
-                    start = Offset(0f, chartBottom),
-                    end = Offset(0f, 0f)
-                  )
+              if (data.drawAxis == DrawAxis.Y || data.drawAxis == DrawAxis.Both) {
+                drawLine(
+                  data.chartColors.axis,
+                  strokeWidth = data.axisWidth,
+                  start = Offset(0f, chartBottom),
+                  end = Offset(0f, 0f)
+                )
+              }
+
+              if (data.drawAxis == DrawAxis.X || data.drawAxis == DrawAxis.Both) {
+                drawLine(
+                  data.chartColors.axis,
+                  strokeWidth = data.axisWidth,
+                  start = Offset(0f, chartBottom),
+                  end = Offset(maxNumberOfPointsOnX * xinterval, chartBottom)
+                )
+              }
+
+              val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
+                val textWidth = xAxisLabelPaint.measureText(xlabel)
+                val x = when (index) {
+                  0 -> 0f
+                  data.xLabels.size - 1 -> maxNumberOfPointsOnX * xinterval - textWidth
+                  else -> index * xinterval - textWidth / 2f
                 }
+                Label(x, componentBottom, xlabel, textWidth)
+              }
 
-                if (data.drawAxis == DrawAxis.X || data.drawAxis == DrawAxis.Both) {
-                  drawLine(
-                    data.chartColors.axis,
-                    strokeWidth = data.axisWidth,
-                    start = Offset(0f, chartBottom),
-                    end = Offset(maxNumberOfPointsOnX * xinterval, chartBottom)
-                  )
-                }
-
-                val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
-                  val textWidth = xAxisLabelPaint.measureText(xlabel)
-                  val x = when (index) {
-                    0 -> 0f
-                    data.xLabels.size - 1 -> maxNumberOfPointsOnX * xinterval - textWidth
-                    else -> index * xinterval - textWidth / 2f
-                  }
-                  Label(x, componentBottom, xlabel, textWidth)
-                }
-
-                if (allLabelsX.combinedWidthIsGreaterThan(
+              if (allLabelsX.combinedWidthIsGreaterThan(
+                  this.size.width,
+                  data.axisLabelPadding.value
+                ) || allLabelsX.anyAreOverlapping()
+              ) {
+                var reducedLabelsX = allLabelsX
+                while (reducedLabelsX.combinedWidthIsGreaterThan(
                     this.size.width,
                     data.axisLabelPadding.value
-                  )
+                  ) || reducedLabelsX.anyAreOverlapping()
                 ) {
-                  var reducedLabelsX = allLabelsX
-                  while (reducedLabelsX.combinedWidthIsGreaterThan(
-                      this.size.width,
-                      data.axisLabelPadding.value
-                    )
-                  ) {
-                    reducedLabelsX = reducedLabelsX.reversed().filterIndexed { index, _ ->
-                      index % 2 == 0
-                    }.reversed()
-                  }
-                  reducedLabelsX
-                } else {
-                  allLabelsX
-                }.forEach { label ->
-                  nativeCanvas.drawText(
-                    label.text,
-                    label.x,
-                    label.y,
-                    xAxisLabelPaint
-                  )
+                  reducedLabelsX = reducedLabelsX.filterIndexed { index, _ -> index % 3 == 0 }
                 }
+                reducedLabelsX
+              } else {
+                allLabelsX
+              }.forEach { label ->
+                drawContext.canvas.nativeCanvas.drawText(
+                  label.text,
+                  label.x,
+                  label.y,
+                  xAxisLabelPaint
+                )
+              }
 
-                data.yLabels.forEach { ylabel ->
-                  val y = (chartBottom - ylabel.atValue / ynormalization).toInt()
+              yLabels.forEach { ylabel ->
+                val y =
+                  (chartBottom - (ylabel.atValue - yValueAdjustment) / ynormalization).toInt()
                     .toFloat() - data.axisLabelPadding.value
-                  nativeCanvas.drawText(
-                    ylabel.label,
-                    0f,
-                    y,
-                    yAxisLabelPaint
-                  )
-                }
+                drawContext.canvas.nativeCanvas.drawText(
+                  ylabel.label,
+                  0f,
+                  y,
+                  yAxisLabelPaint
+                )
+              }
 
-                if (drillDownPoint != null) {
-                  drawLine(
-                    color = data.chartColors.drillDownLine,
-                    start = Offset(animatedDrillDownX, 0f),
-                    end = Offset(
-                      animatedDrillDownX, chartBottom
-                    ),
-                    strokeWidth = data.drillDownIndicatorStrokeWidth.value
-                  )
-                }
+              if (drillDownPoint != null) {
+                drawLine(
+                  color = data.chartColors.drillDownLine,
+                  start = Offset(animatedDrillDownX, 0f),
+                  end = Offset(
+                    animatedDrillDownX, chartBottom
+                  ),
+                  strokeWidth = data.drillDownIndicatorStrokeWidth.value
+                )
               }
             }
           )
@@ -365,6 +397,10 @@ fun LineChart(
   }
 }
 
+private fun Paint.textHeight(): Float {
+  return fontMetrics.descent - fontMetrics.ascent + fontMetrics.leading
+}
+
 private fun snapToPoints(
   xinterval: Float,
   x: Float,
@@ -378,5 +414,13 @@ private fun List<Label>.combinedWidthIsGreaterThan(
   individualLabelPadding: Float = 0f
 ): Boolean =
   this.sumOf { label -> label.measuredWidth.toDouble() + individualLabelPadding } > totalWidth
+
+private fun List<Label>.anyAreOverlapping(): Boolean {
+  return this.filterIndexed { index, label ->
+    if (index != this.lastIndex) {
+      label.x + label.measuredWidth >= this[index + 1].x
+    } else false
+  }.count() > 0
+}
 
 private data class Label(val x: Float, val y: Float, val text: String, val measuredWidth: Float)

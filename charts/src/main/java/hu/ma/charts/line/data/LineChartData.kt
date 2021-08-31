@@ -14,9 +14,12 @@ import hu.ma.charts.legend.data.LegendPosition
 data class LineChartData(
   val series: List<SeriesData>,
   val xLabels: List<String> = emptyList(),
-  val yLabels: List<AxisLabel> = listOf(),
+  val yLabels: List<AxisLabel> = emptyList(),
+  val maxYLabels: Int = Int.MAX_VALUE,
+  val autoYLabels: Boolean = false,
   val chartColors: ChartColors = ChartColors.defaultColors(),
   val horizontalLines: Boolean = false,
+  val floatingYValue: Boolean = false,
   val drawAxis: DrawAxis = DrawAxis.Both,
   val axisWidth: Float = 2f,
   val axisTextSize: TextUnit = 10.sp,
