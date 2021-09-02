@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-  compileSdk = Config.targetSdk
+  compileSdk = Config.compileSdk
 
   defaultConfig {
     applicationId = "hu.ma.charts.sample"

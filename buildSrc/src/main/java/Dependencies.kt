@@ -1,7 +1,7 @@
 object Config {
   const val minSdk = 21
   const val targetSdk = 30
-
+  const val compileSdk = 31
 }
 
 object Dependencies {
@@ -14,7 +14,7 @@ object Dependencies {
   }
 
   object Compose {
-    const val version = "1.0.1"
+    const val version = "1.0.2"
 
     const val activity = "androidx.activity:activity-compose:_"
     const val runtime = "androidx.compose.runtime:runtime:_"
