@@ -161,7 +161,7 @@ fun LineChart(
             modifier = Modifier
               .fillMaxSize()
               .background(data.chartColors.background)
-              .pointerInput(maxNumberOfPointsOnX) {
+              .pointerInput(data.series.hashCode()) {
                 if (onDrillDown != null) {
                   detectHorizontalDragGestures(
                     onHorizontalDrag = { change, _ ->
@@ -181,7 +181,7 @@ fun LineChart(
                   )
                 }
               }
-              .pointerInput(maxNumberOfPointsOnX) {
+              .pointerInput(data.series.hashCode()) {
                 if (onDrillDown != null) {
                   detectTapGestures(
                     onTap = {
