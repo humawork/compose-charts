@@ -175,8 +175,8 @@ fun LineChart(
                           val snapToPoint =
                             snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
                           if (snapToPoint != null && snapToPoint.x != lastSnapToPointX) {
-                              onDrillDown(snapToPoint.x, data.series)
-                              lastSnapToPointX = snapToPoint.x
+                            onDrillDown(snapToPoint.x, data.series)
+                            lastSnapToPointX = snapToPoint.x
                           }
                         }
                       }
