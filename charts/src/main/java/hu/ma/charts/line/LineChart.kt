@@ -68,7 +68,7 @@ fun LineChart(
   )? = { position, entries ->
     LinesChartLegend(position = position, entries = entries)
   },
-  updateOnDrag: Boolean = false,
+  callDrilldownCallbackOnDrag: Boolean = false,
 ) {
   val legendEntries = remember(data) { data.createLegendEntries(data.legendShapeSize) }
 
@@ -170,7 +170,7 @@ fun LineChart(
                     onHorizontalDrag = { change, _ ->
                       if (change.position.x >= 0 && change.position.x <= maxWidth.toPx()) {
                         drillDownPoint = change.position.x
-                        if (updateOnDrag) {
+                        if (callDrilldownCallbackOnDrag) {
                           val xinterval = maxWidth.toPx() / maxNumberOfPointsOnX
                           val snapToPoint =
                             snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
