@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,29 +53,34 @@ internal fun DropdownContent(
   )
 
   entries.forEachIndexed { idx, (text, value, color) ->
-    Row(Modifier.requiredHeight(20.dp), verticalAlignment = Alignment.CenterVertically) {
-      Box(
-        Modifier
-          .requiredSize(8.dp)
-          .background(color, CircleShape)
-      )
+    key("${idx}_${text}_${value}_$color") {
+      Row(
+        modifier = Modifier.requiredHeight(20.dp),
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        Box(
+          Modifier
+            .requiredSize(8.dp)
+            .background(color, CircleShape)
+        )
 
-      Text(
-        text = text,
-        modifier = Modifier.padding(start = 8.dp),
-        style = MaterialTheme.typography.caption,
-      )
+        Text(
+          text = text,
+          modifier = Modifier.padding(start = 8.dp),
+          style = MaterialTheme.typography.caption,
+        )
 
-      Spacer(
-        modifier = Modifier
-          .requiredHeight(20.dp)
-          .weight(1f)
-      )
+        Spacer(
+          modifier = Modifier
+            .requiredHeight(20.dp)
+            .weight(1f)
+        )
 
-      Text(
-        text = value.toInt().toString(),
-        style = MaterialTheme.typography.caption,
-      )
+        Text(
+          text = value.toInt().toString(),
+          style = MaterialTheme.typography.caption,
+        )
+      }
     }
 
     if (idx != entries.lastIndex)

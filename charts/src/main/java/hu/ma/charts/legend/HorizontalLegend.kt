@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,16 +25,18 @@ fun HorizontalLegend(
     crossAxisSpacing = 8.dp,
   ) {
     legendEntries.fastForEach { item ->
-      Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-          modifier = Modifier
-            .requiredSize(item.shape.size)
-            .background(item.shape.color, item.shape.shape)
-        )
+      key(item.hashCode()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+          Box(
+            modifier = Modifier
+              .requiredSize(item.shape.size)
+              .background(item.shape.color, item.shape.shape)
+          )
 
-        Spacer(modifier = Modifier.requiredSize(8.dp))
+          Spacer(modifier = Modifier.requiredSize(8.dp))
 
-        text(item)
+          text(item)
+        }
       }
     }
   }

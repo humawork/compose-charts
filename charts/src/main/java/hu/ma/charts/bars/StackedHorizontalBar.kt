@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -42,21 +43,23 @@ internal fun DrawStackedBar(
     horizontalArrangement = Arrangement.spacedBy(EntrySpacing)
   ) {
     values.forEachIndexed { idx, item ->
-      val shape = when {
-        idx == 0 && values.size == 1 -> EntryDrawShape.Single
-        idx == 0 -> EntryDrawShape.First
-        idx == values.lastIndex -> EntryDrawShape.Last
-        else -> EntryDrawShape.Middle
-      }
+      key(item) {
+        val shape = when {
+          idx == 0 && values.size == 1 -> EntryDrawShape.Single
+          idx == 0 -> EntryDrawShape.First
+          idx == values.lastIndex -> EntryDrawShape.Last
+          else -> EntryDrawShape.Middle
+        }
 
-      Box(
-        modifier = Modifier
-          .requiredWidth(with(LocalDensity.current) { item.value.toDp() })
-          .requiredHeight(8.dp)
-          .drawBehind {
-            drawPath(entryPathFactory(shape, size), item.color)
-          }
-      )
+        Box(
+          modifier = Modifier
+            .requiredWidth(with(LocalDensity.current) { item.value.toDp() })
+            .requiredHeight(8.dp)
+            .drawBehind {
+              drawPath(entryPathFactory(shape, size), item.color)
+            }
+        )
+      }
     }
   }
 }

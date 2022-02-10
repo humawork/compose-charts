@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -83,32 +84,34 @@ fun HorizontalBarsChart(
     val maxValue = data.bars.maxByOrNull { bar -> bar.count }?.count ?: 0
 
     data.bars.forEachIndexed { idx, bar ->
-      Box {
-        StackedHorizontalBar(
-          modifier = Modifier.clickable(
-            interactionSource = MutableInteractionSource(),
-            indication = null,
-            enabled = data.isPopupEnabled,
-            onClick = { popupState = PopupState.Showing(bar) },
-          ),
-          colors = data.colors,
-          data = bar,
-          maxBarValue = maxValue,
-          shouldDrawDivider = idx != data.bars.lastIndex,
-          divider = divider,
-          title = textContent,
-          value = valueContent,
-        )
+      key(bar) {
+        Box {
+          StackedHorizontalBar(
+            modifier = Modifier.clickable(
+              interactionSource = MutableInteractionSource(),
+              indication = null,
+              enabled = data.isPopupEnabled,
+              onClick = { popupState = PopupState.Showing(bar) },
+            ),
+            colors = data.colors,
+            data = bar,
+            maxBarValue = maxValue,
+            shouldDrawDivider = idx != data.bars.lastIndex,
+            divider = divider,
+            title = textContent,
+            value = valueContent,
+          )
 
-        DropdownMenu(
-          modifier = dropdownModifier,
-          offset = DpOffset(0.dp, (-48).dp),
-          expanded = popupState.let { it is PopupState.Showing && it.data == bar },
-          onDismissRequest = { popupState = PopupState.Idle }
-        ) {
-          popupState.let {
-            if (it is PopupState.Showing)
-              dropdownContent(it.data)
+          DropdownMenu(
+            modifier = dropdownModifier,
+            offset = DpOffset(0.dp, (-48).dp),
+            expanded = popupState.let { it is PopupState.Showing && it.data == bar },
+            onDismissRequest = { popupState = PopupState.Idle }
+          ) {
+            popupState.let {
+              if (it is PopupState.Showing)
+                dropdownContent(it.data)
+            }
           }
         }
       }
