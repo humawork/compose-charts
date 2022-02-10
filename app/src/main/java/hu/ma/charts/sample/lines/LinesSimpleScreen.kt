@@ -62,7 +62,7 @@ fun LinesSimpleScreen() {
               }"
             )
           },
-          legend = { position, entries ->
+          legend = { _, entries ->
             Text(text = "Showing series: ")
             entries.fastForEachIndexed { index, item ->
               Text(text = "${item.text}")

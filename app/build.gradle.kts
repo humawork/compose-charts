@@ -25,7 +25,6 @@ android {
 
   kotlinOptions {
     jvmTarget = "1.8"
-    useIR = true
   }
 
   composeOptions {
@@ -37,7 +36,7 @@ dependencies {
   implementation(project(":charts"))
 
   arrayOf(
-    AndroidX.activityKtx,
+    AndroidX.activity.ktx,
     Google.android.material,
     Dependencies.Compose.runtime,
     Dependencies.Compose.activity,

@@ -52,6 +52,7 @@ fun LinesChartLegend(position: LegendPosition, entries: List<LegendEntry>) {
     }
     LegendPosition.Top, LegendPosition.Bottom ->
       HorizontalLegend(legendEntries = entries)
+    else -> {}
   }
 }
 
@@ -77,9 +78,7 @@ fun LineChart(
   val maxYValueFromData = data.series.maxOf { it.points.maxOf { point -> point.value } }
 
   var drillDownPoint by remember { mutableStateOf<Float?>(null) }
-  drillDownPoint = null
   var lastSnapToPointX by remember { mutableStateOf<Int?>(null) }
-  lastSnapToPointX = null
 
   val minYValue = data.series.minOf { series -> series.points.minOf { it.value } }
   val yValueAdjustment =
