@@ -48,8 +48,7 @@ fun PieSimpleScreen() {
 
     item {
       val data = PieChartData(
-        entries = listOf(430f).mapIndexed {
-            idx, value ->
+        entries = listOf(430f).mapIndexed { idx, value ->
           PieChartEntry(
             value = value,
             label = AnnotatedString(Categories[idx])

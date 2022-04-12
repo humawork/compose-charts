@@ -62,10 +62,10 @@ fun LineChart(
   data: LineChartData,
   onDrillDown: ((x: Int, series: List<LineChartData.SeriesData>) -> Unit)? = null,
   legend: (
-  @Composable (
-    position: LegendPosition,
-    entries: List<LegendEntry>
-  ) -> Unit
+    @Composable (
+      position: LegendPosition,
+      entries: List<LegendEntry>
+    ) -> Unit
   )? = { position, entries ->
     LinesChartLegend(position = position, entries = entries)
   },
@@ -88,8 +88,8 @@ fun LineChart(
     data.autoYLabels -> {
       val numberOfLabels = if (data.maxYLabels == Int.MAX_VALUE) 5 else data.maxYLabels
 
-      val topYLabelValue = maxYValueFromData +
-          maxYValueFromData * (0.1 - 0.1 * (yValueAdjustment / maxYValueFromData))
+      val topYLabelValue =
+        maxYValueFromData + maxYValueFromData * (0.1 - 0.1 * (yValueAdjustment / maxYValueFromData))
 
       val labelInterval = (topYLabelValue - yValueAdjustment) / (numberOfLabels - 1)
 
@@ -425,7 +425,9 @@ private fun List<Label>.combinedWidthIsGreaterThan(
   totalWidth: Float,
   individualLabelPadding: Float = 0f
 ): Boolean =
-  this.sumOf { label -> label.text.maxIntrinsicWidth.toDouble() + individualLabelPadding } > totalWidth
+  this.sumOf { label ->
+    label.text.maxIntrinsicWidth.toDouble() + individualLabelPadding
+  } > totalWidth
 
 private fun List<Label>.anyAreOverlapping(): Boolean {
   return this.filterIndexed { index, label ->
