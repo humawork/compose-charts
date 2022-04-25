@@ -1,6 +1,5 @@
 package hu.ma.charts.line
 
-import android.graphics.Paint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -29,10 +28,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFontLoader
+import androidx.compose.ui.text.Paragraph
 import androidx.compose.ui.unit.Dp
 import hu.ma.charts.internal.createLegendEntries
 import hu.ma.charts.legend.HorizontalLegend
@@ -88,8 +88,8 @@ fun LineChart(
     data.autoYLabels -> {
       val numberOfLabels = if (data.maxYLabels == Int.MAX_VALUE) 5 else data.maxYLabels
 
-      val topYLabelValue = maxYValueFromData +
-        maxYValueFromData * (0.1 - 0.1 * (yValueAdjustment / maxYValueFromData))
+      val topYLabelValue =
+        maxYValueFromData + maxYValueFromData * (0.1 - 0.1 * (yValueAdjustment / maxYValueFromData))
 
       val labelInterval = (topYLabelValue - yValueAdjustment) / (numberOfLabels - 1)
 
@@ -158,6 +158,7 @@ fun LineChart(
           baseModifier.fillMaxHeight()
         }
         Column(modifier = modifier) {
+          val fontLoader = LocalFontLoader.current
 
           Canvas(
             modifier = Modifier
@@ -185,7 +186,7 @@ fun LineChart(
                       val snapToPoint =
                         snapToPoints(xinterval, drillDownPoint ?: 0f, data.series)
                       if (snapToPoint != null) {
-                        drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
+                        drillDownPoint = ((snapToPoint.x) * xinterval)
                         onDrillDown(snapToPoint.x, data.series)
                       }
                     }
@@ -199,7 +200,7 @@ fun LineChart(
                       val xinterval = maxWidth.toPx() / maxNumberOfPointsOnX
                       val snapToPoint = snapToPoints(xinterval, it.x, data.series)
                       if (snapToPoint != null) {
-                        drillDownPoint = ((snapToPoint.x) * xinterval).toFloat()
+                        drillDownPoint = ((snapToPoint.x) * xinterval)
                         onDrillDown(snapToPoint.x, data.series)
                       }
                     }
@@ -207,27 +208,37 @@ fun LineChart(
                 }
               },
             onDraw = {
-
-              val yAxisLabelPaint = Paint().apply {
-                textSize = data.axisTextSize.toPx()
-                color = data.chartColors.ylabel.toArgb()
-                typeface = data.axisTypeface
-                isAntiAlias = true
+              val allLabelParagraphsX = data.xLabels.map { xlabel ->
+                Paragraph(
+                  text = xlabel,
+                  style = data.xAxisTypeface,
+                  maxLines = 1,
+                  ellipsis = true,
+                  width = Float.POSITIVE_INFINITY,
+                  density = this,
+                  resourceLoader = fontLoader
+                )
               }
-              val xAxisLabelPaint = Paint().apply {
-                textSize = data.axisTextSize.toPx()
-                color = data.chartColors.xlabel.toArgb()
-                typeface = data.axisTypeface
-                isAntiAlias = true
+
+              val allLabelParagraphsY = yLabels.map { ylabel ->
+                Paragraph(
+                  text = ylabel.label,
+                  style = data.yAxisTypeface,
+                  maxLines = 1,
+                  ellipsis = true,
+                  width = Float.POSITIVE_INFINITY,
+                  density = this,
+                  resourceLoader = fontLoader
+                )
               }
 
               val heightOfAxisLabels =
-                if (data.xLabels.isNotEmpty()) xAxisLabelPaint.textHeight()
+                if (data.xLabels.isNotEmpty()) allLabelParagraphsX.maxOf { it.getLineHeight(0) }
                 else 0f
 
               val heightOfYLabelsBeyondChart =
                 if (yLabels.isNotEmpty() && hasYLabelsOutsideChartValueRange)
-                  xAxisLabelPaint.textHeight() + data.axisLabelPadding.value
+                  allLabelParagraphsY.maxOf { it.height } + data.axisLabelPadding.value
                 else 0f
 
               val componentBottom = this.size.height
@@ -237,6 +248,16 @@ fun LineChart(
 
               val xinterval = this.size.width / maxNumberOfPointsOnX.toFloat()
               val ynormalization = (maxYValueAdjusted - yValueAdjustment) / chartAreaHeight
+
+              val allLabelsX = allLabelParagraphsX.mapIndexed { index, p ->
+                val textWidth = p.maxIntrinsicWidth
+                val x = when (index) {
+                  0 -> 0f
+                  data.xLabels.lastIndex -> maxNumberOfPointsOnX * xinterval - textWidth
+                  else -> index * xinterval - textWidth / 2f
+                }
+                Label(x, componentBottom, p)
+              }
 
               yLabels.forEach { ylabel ->
                 val y = chartBottom - ((ylabel.atValue - yValueAdjustment) / ynormalization)
@@ -321,16 +342,6 @@ fun LineChart(
                 )
               }
 
-              val allLabelsX = data.xLabels.mapIndexed { index, xlabel ->
-                val textWidth = xAxisLabelPaint.measureText(xlabel)
-                val x = when (index) {
-                  0 -> 0f
-                  data.xLabels.size - 1 -> maxNumberOfPointsOnX * xinterval - textWidth
-                  else -> index * xinterval - textWidth / 2f
-                }
-                Label(x, componentBottom, xlabel, textWidth)
-              }
-
               if (allLabelsX.combinedWidthIsGreaterThan(
                   this.size.width,
                   data.axisLabelPadding.value
@@ -348,24 +359,18 @@ fun LineChart(
               } else {
                 allLabelsX
               }.forEach { label ->
-                drawContext.canvas.nativeCanvas.drawText(
-                  label.text,
-                  label.x,
-                  label.y,
-                  xAxisLabelPaint
-                )
+                translate(label.x, label.y - label.text.getLineHeight(0)) {
+                  label.text.paint(this.drawContext.canvas)
+                }
               }
 
-              yLabels.forEach { ylabel ->
+              yLabels.forEachIndexed { index, ylabel ->
                 val y =
                   (chartBottom - (ylabel.atValue - yValueAdjustment) / ynormalization).toInt()
                     .toFloat() - data.axisLabelPadding.value
-                drawContext.canvas.nativeCanvas.drawText(
-                  ylabel.label,
-                  0f,
-                  y,
-                  yAxisLabelPaint
-                )
+                translate(0F, y - allLabelParagraphsY[index].getLineHeight(0)) {
+                  allLabelParagraphsY[index].paint(this.drawContext.canvas)
+                }
               }
 
               if (drillDownPoint != null) {
@@ -408,10 +413,6 @@ fun LineChart(
   }
 }
 
-private fun Paint.textHeight(): Float {
-  return fontMetrics.descent - fontMetrics.ascent + fontMetrics.leading
-}
-
 private fun snapToPoints(
   xinterval: Float,
   x: Float,
@@ -424,14 +425,16 @@ private fun List<Label>.combinedWidthIsGreaterThan(
   totalWidth: Float,
   individualLabelPadding: Float = 0f
 ): Boolean =
-  this.sumOf { label -> label.measuredWidth.toDouble() + individualLabelPadding } > totalWidth
+  this.sumOf { label ->
+    label.text.maxIntrinsicWidth.toDouble() + individualLabelPadding
+  } > totalWidth
 
 private fun List<Label>.anyAreOverlapping(): Boolean {
   return this.filterIndexed { index, label ->
     if (index != this.lastIndex) {
-      label.x + label.measuredWidth >= this[index + 1].x
+      label.x + label.text.maxIntrinsicWidth >= this[index + 1].x
     } else false
   }.count() > 0
 }
 
-private data class Label(val x: Float, val y: Float, val text: String, val measuredWidth: Float)
+private data class Label(val x: Float, val y: Float, val text: Paragraph)
