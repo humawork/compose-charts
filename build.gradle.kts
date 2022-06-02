@@ -50,7 +50,7 @@ subprojects {
         eachDependency {
           // Force Kotlin to our version
           if (requested.group == "org.jetbrains.kotlin") {
-            useVersion("1.6.10")
+            useVersion("1.6.21")
           }
         }
       }
