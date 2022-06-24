@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -82,8 +83,7 @@ internal fun PieChartRenderer(
       val arcStartPointY = center.y + radius * sin(startAngleOuter * FDEG2RAD)
 
       if (sweepAngleOuter >= 360f && sweepAngleOuter % 360f <= FLOAT_EPSILON) {
-        // Android is doing "mod 360"
-        pathBuffer.addArc(circleBox, StartDegree, sweepAngleOuter)
+        pathBuffer.addOval(Rect(center = Offset(center.x, center.y), radius))
       } else {
         pathBuffer.arcTo(
           circleBox,
